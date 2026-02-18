@@ -1,0 +1,15 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Node (if ever used)
+node_modules/
+
+# VS Code
+.vscode/
+
+# PHP server cache
+*.pid

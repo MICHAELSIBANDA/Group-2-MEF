@@ -1,0 +1,266 @@
+/*reset and base styles*/
+
+html {
+    scroll-behavior: smooth;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: transparent;
+    color: #1f2933;
+    line-height: 1.6;
+}
+
+/*background*/
+
+.site-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+
+    background-image:
+        linear-gradient(
+            rgba(0, 0, 0, 0.55),
+            rgba(0, 0, 0, 0.55)
+        ),
+        url("../images/prof-mamokgethi-bg-image.jpg");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/*layout*/
+
+.container {
+    width: 90%;
+    max-width: 1000px;
+    margin: auto;
+}
+
+section {
+    scroll-margin-top: 80px;
+    position: relative;
+    z-index: 1;
+}
+
+/*navbar*/
+
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.nav-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 0;
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: 700;
+    color: #111827;
+}
+
+nav a {
+    text-decoration: none;
+    margin-left: 20px;
+    color: #1f2933;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+nav a:hover {
+    color: #4f46e5;
+}
+
+/*hero section*/
+
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: white;
+    padding: 60px 0;
+}
+
+.hero h1 {
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 20px;
+    max-width: 720px;
+    margin: 0 auto 30px;
+}
+
+/*buttons*/
+
+.btn {
+    display: inline-block;
+    background: white;
+    color: #111827;
+    padding: 12px 26px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.25s ease;
+}
+
+.btn:hover {
+    background: #f3f4f6;
+    transform: translateY(-2px);
+}
+
+/*content section*/
+
+.content {
+    padding: 80px 0;
+}
+
+/*glassmorphism cards*/
+
+
+.card {
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    padding: 32px;
+    margin-bottom: 30px;
+    border-radius: 18px;
+
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+
+    text-align: center;
+    color: #ffffff;
+
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 45px rgba(0,0,0,0.25);
+}
+
+.card h2,
+.card h3 {
+    color: #ffffff;
+    margin-bottom: 14px;
+}
+
+.card p {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/*page-header*/
+
+.page-header {
+    padding: 100px 0;
+    text-align: center;
+    color: white;
+}
+
+/*footer*/
+
+footer {
+    text-align: center;
+    padding: 30px 0;
+    color: rgba(255, 255, 255, 0.85);
+    position: relative;
+    z-index: 1;
+}
+
+footer p {
+    font-size: 14px;
+}
+
+/*response*/
+
+@media (max-width: 768px) {
+
+    .hero h1 {
+        font-size: 36px;
+    }
+
+    .hero p {
+        font-size: 18px;
+    }
+
+    nav a {
+        margin-left: 12px;
+    }
+}
+
+/* FOOTER SOCIAL ICONS */
+.footer-socials {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    margin-bottom: 14px;
+}
+
+.footer-socials a {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+
+    font-size: 18px;
+    text-decoration: none;
+
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.footer-socials a:hover {
+    transform: translateY(-3px);
+    background: rgba(255, 255, 255, 0.35);
+}
+
+/* LOGO CONTAINER */
+.logo {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+/* LOGO IMAGE – visually larger, layout unchanged */
+.logo img {
+    height: 42px;              /* keeps navbar height stable */
+    width: auto;
+
+    transform: scale(4.35);    /* 👈 makes logo LOOK bigger */
+    transform-origin: left center;
+
+    pointer-events: none;      /* optional: avoids hover jitter */
+}
