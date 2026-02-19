@@ -46,13 +46,24 @@ body {
     max-width: 1000px;
     margin: auto;
 }
-
-section {
+#home,
+#about,
+#stories {
     scroll-margin-top: 80px;
     position: relative;
     z-index: 1;
 }
 
+#about {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+#about .container {
+    display: flex;
+    justify-content: center;
+}
 /*navbar*/
 
 .navbar {
@@ -81,16 +92,36 @@ section {
 }
 
 nav a {
+    position: relative;
     text-decoration: none;
-    margin-left: 20px;
     color: #1f2933;
     font-weight: 500;
-    transition: color 0.2s ease;
+
+    letter-spacing: 0.8px;
+    padding: 6px 4px;
+        
+        transition: color 0.25s ease;
+}
+
+nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 0;
+    height: 2px;
+    background-color: #4f46e5;
+    transition: width 0.25s ease;
 }
 
 nav a:hover {
     color: #4f46e5;
 }
+
+nav a:hover::after {
+    width: 100%;
+}
+
 
 /*hero section*/
 
@@ -100,7 +131,7 @@ nav a:hover {
     align-items: center;
     text-align: center;
     color: white;
-    padding: 60px 0;
+    padding: 120px 0;
 }
 
 .hero h1 {
@@ -120,7 +151,7 @@ nav a:hover {
 .btn {
     display: inline-block;
     background: white;
-    color: #111827;
+    color: #525b6e;
     padding: 12px 26px;
     border-radius: 10px;
     text-decoration: none;
@@ -136,8 +167,9 @@ nav a:hover {
 /*content section*/
 
 .content {
-    padding: 80px 0;
+    padding: 120px 0;
 }
+
 
 /*glassmorphism cards*/
 
@@ -168,7 +200,7 @@ nav a:hover {
 .card h2,
 .card h3 {
     color: #ffffff;
-    margin-bottom: 14px;
+    margin-bottom: 50px;
 }
 
 .card p {
@@ -263,4 +295,20 @@ footer p {
     transform-origin: left center;
 
     pointer-events: none;      /* optional: avoids hover jitter */
+}
+
+
+.stories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.story-card {
+    cursor: pointer;
+}
+
+.full-story {
+    display: none;
+    margin-top: 40px;
 }

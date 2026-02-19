@@ -21,6 +21,7 @@
                 <nav>
                     <a href="#home">Home</a>
                     <a href="#about">About</a>
+                    <a href="#stories">Testimonials</a>
                 </nav>
             </div>
         </header>
