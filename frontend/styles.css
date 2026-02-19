@@ -29,20 +29,31 @@
             background: rgba(0, 0, 0, 0.9);
             z-index: 1000;
         }
-
+        .logo{
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
         .logo img {
-            height: 60px;
+            height: 42px;
+            width: auto;
+
+            transform: scale(4.35);
+            transform-origin:left center ;
+
+            pointer-events: none;
+
         }
 
         nav a {
             margin-left: 40px;
             text-decoration: none;
-            color: #1f2937;
-            font-weight: 500;
+            color: #89b5f1;
+            font-weight: 550;
         }
 
         nav a:hover {
-            color: #2563eb;
+            color: #7ca1f1;
         }
 
         section {
