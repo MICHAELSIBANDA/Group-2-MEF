@@ -9,6 +9,7 @@
     ["label" => "About",        "href" => "#about"],
     ["label" => "Impact",       "href" => "#impact"],
     ["label" => "Testimonials", "href" => "#stories"],
+    ["label" => "Gallery",      "href" => "#gallery"],
     ["label" => "Contact",      "href" => "#contact"],
   ];
 
@@ -85,6 +86,7 @@
  */
   <!-- Stylesheet -->
   <link rel="stylesheet" href="/styles/styles.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
 </head>
 <body>
 
@@ -295,6 +297,92 @@
       </div>
     </section>
 
+
+    <!-- ==========GALLERY ========== -->
+    <section id="gallery" class="gallery">
+      <div class="container">
+        <div class="gallery-header">
+          <span class="section-label">In Action</span>
+          <h2 class="section-title">Gallery</h2>
+          <hr class="section-divider section-divider--center" />
+          <p class="sub">
+            A glimpse into our events, workshops, and celebrations where education takes center stage.
+          </p>
+        </div>
+        <div class="swiper premiumSwiper">
+          <div class="swiper-wrapper">
+
+            <div class="swiper-slide">
+              <img src="/images/MaMthiyane_facebook.jpg" alt="Lihle Mthiyane" loading="lazy">
+            </div>
+
+            <div class="swiper-slide">
+              <img src="/images/Lawyer.jpg" alt="Madolo Masinga" loading="lazy">
+            </div>
+
+            <div class="swiper-slide">
+              <img src="/images/Basic Ed.jpg" alt="Dept. of Basic Education" loading="lazy">
+            </div>
+
+            <div class="swiper-slide">
+              <img src="/images/videoframe_2185.png" alt="Convocation_2185" loading="lazy">
+            </div>
+
+            <div class="swiper-slide">
+              <img src="/images/Math_gallery.jpg" alt="Math Gallery" loading="lazy">
+            </div>
+
+            <div class="swiper-slide">
+              <img src="/images/Bonolo Kgosieng.jpg" alt="Bonolo Kgosieng" loading="lazy">
+            </div>
+
+            <!-- Add remaining images same way -->
+            <div class="swiper-slide">
+              <img src="/images/Bethel Iteoluwakishi Olusola.jpg" alt="Bethel Iteoluwakishi Olusola" loading="lazy">
+            </div>
+
+            <div class="swiper-slide">
+              <img src="/images/Maphuti Matloa.jpg" alt="Maphuti Matloa" loading="lazy">
+            </div>
+
+            <div class="swiper-slide">
+              <img src="/images/Palesa M. Mofokeng.jpg" alt="Palesa M. Mofokeng" loading="lazy">
+            </div>
+
+            <div class="swiper-slide">
+              <img src="/images/Phuthi.jpeg" alt="Phuthi" loading="lazy">
+            </div>
+
+            <div class="swiper-slide">
+              <img src="/images/Rakwena Suffo Molekoa.jpg" alt="Rakwena Suffo Molekoa" loading="lazy">
+            </div>
+
+            <div class="swiper-slide">
+              <img src="/images/Theresa.jpeg" alt="Theresa" loading="lazy">
+            </div>
+
+            <div class="swiper-slide">
+              <img src="/images/videoframe_0 (1).png" alt="videoframe_0 (1)" loading="lazy">
+            </div>
+
+            <div class="swiper-slide">
+              <img src="/images/videoframe_0.png" alt="videoframe_0" loading="lazy">
+            </div>
+
+          </div>
+
+          <!-- Navigation -->
+          <div class="swiper-button-next"></div>
+          <div class="swiper-button-prev"></div>
+
+          <!-- Pagination -->
+          <div class="swiper-pagination"></div>
+        </div>
+    </section>
+
+
+
+
     <!-- ========== CTA ========== -->
     <!-- ========================= -->
     <section id="contact" class="cta">
@@ -410,5 +498,85 @@
     }
   </script>
 
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+  <script>
+  const swiper = new Swiper(".premiumSwiper", {
+    loop: true,
+    centeredSlides: true,
+    spaceBetween: 30,
+    speed: 900,
+
+    autoplay: {
+      delay: 2500,
+      disableOnInteraction: false,
+    },
+
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+
+    lazy: true,
+
+    breakpoints: {
+      0: {
+        slidesPerView: 1,
+      },
+      768: {
+        slidesPerView: 2,
+      },
+      1024: {
+        slidesPerView: 3,
+      },
+    },
+  });
+
+  // Pause on hover
+  const swiperContainer = document.querySelector(".premiumSwiper");
+
+  swiperContainer.addEventListener("mouseenter", () => {
+    swiper.autoplay.stop();
+  });
+
+  swiperContainer.addEventListener("mouseleave", () => {
+    swiper.autoplay.start();
+  });
+
+  // Lightbox effect
+  document.querySelectorAll(".swiper-slide img").forEach(img => {
+    img.addEventListener("click", () => {
+      const overlay = document.createElement("div");
+      overlay.style.position = "fixed";
+      overlay.style.top = 0;
+      overlay.style.left = 0;
+      overlay.style.width = "100%";
+      overlay.style.height = "100%";
+      overlay.style.background = "rgba(0,0,0,0.9)";
+      overlay.style.display = "flex";
+      overlay.style.alignItems = "center";
+      overlay.style.justifyContent = "center";
+      overlay.style.zIndex = 9999;
+
+      const bigImage = document.createElement("img");
+      bigImage.src = img.src;
+      bigImage.style.maxWidth = "90%";
+      bigImage.style.maxHeight = "90%";
+      bigImage.style.borderRadius = "12px";
+
+      overlay.appendChild(bigImage);
+      document.body.appendChild(overlay);
+
+      overlay.addEventListener("click", () => {
+        document.body.removeChild(overlay);
+      });
+    });
+  });
+</script>
 </body>
 </html>
