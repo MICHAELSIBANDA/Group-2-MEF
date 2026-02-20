@@ -84,7 +84,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
  */
   <!-- Stylesheet -->
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="/styles/styles.css" />
 </head>
 <body>
 
@@ -94,8 +94,8 @@
  <header class="site-header" role="banner">
   <div class="header-inner">
     <!-- UPDATED LOGO -->
-    <a href="#home" class="header-logo" aria-label="<?php echo $siteAbbr; ?> Home">
-      <img src="images/logos.png" alt="<?php echo htmlspecialchars($siteName); ?> logo" />
+    <a href="#home" class="logo" aria-label="<?php echo $siteAbbr; ?> Home">
+      <img src="/images/logos.png" alt="<?php echo htmlspecialchars($siteName); ?> logo" />
     </a>
 
     <nav class="nav-desktop" aria-label="Main navigation">
@@ -128,7 +128,7 @@
     <!-- ========== HERO ========== -->
     <!-- ========================== -->
     <section id="home" class="hero">
-      <img class="hero-bg" src="grad.jpg" alt="" />
+      <img class="hero-bg" src="/images/grad.jpg" alt="" />
       <div class="hero-overlay"></div>
 
       <div class="hero-content">
@@ -164,7 +164,7 @@
           <!-- Image -->
           <div class="about-image-wrap">
             <div class="about-image">
-              <img src="Prof.jpg" alt="Professor in academic regalia celebrating education" />
+              <img src="/images/Prof.jpg" alt="Professor in academic regalia celebrating education" />
             </div>
             <div class="about-image-accent" aria-hidden="true"></div>
           </div>
@@ -325,7 +325,7 @@
 
         <!-- Brand -->
         <div class="footer-brand">
-          <img src="logos.png" alt="<?php echo htmlspecialchars($siteName); ?> logo" />
+          <img  src="/images/logos.png" alt="<?php echo htmlspecialchars($siteName); ?> logo" />
           <p>A South African social movement rebranding academic excellence and making education the ultimate status symbol.</p>
         </div>
 
@@ -362,7 +362,6 @@
             <?php endforeach; ?>
           </div>
           <div class="footer-contact">
-            <p><?php echo $contactEmail; ?></p>
             <p>South Africa</p>
           </div>
         </div>
