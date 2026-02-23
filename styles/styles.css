@@ -555,7 +555,7 @@ button {
       rgba(0, 0, 0, 0.6),
       rgba(0, 0, 0, 0.6)
     ),
-    url('/images/studying kids.jpg') center/cover no-repeat;
+    url('/assets/studying kids.jpg') center/cover no-repeat;
   padding: 100px 0;
   color: #faf6f6;
 }

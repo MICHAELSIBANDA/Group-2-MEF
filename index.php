@@ -97,7 +97,7 @@
   <div class="header-inner">
     <!-- UPDATED LOGO -->
     <a href="#home" class="logo" aria-label="<?php echo $siteAbbr; ?> Home">
-      <img src="/images/logos.png" alt="<?php echo htmlspecialchars($siteName); ?> logo" />
+      <img src="/assets/logos.png" alt="<?php echo htmlspecialchars($siteName); ?> logo" />
     </a>
 
     <nav class="nav-desktop" aria-label="Main navigation">
@@ -130,7 +130,9 @@
     <!-- ========== HERO ========== -->
     <!-- ========================== -->
     <section id="home" class="hero">
-      <img class="hero-bg" src="/images/grad.jpg" alt="" />
+      <video class="hero-bg" autoplay muted loop playsinline>
+        <source src="/assets/background_video.mp4" type="video/mp4">
+      </video>
       <div class="hero-overlay"></div>
 
       <div class="hero-content">
@@ -166,7 +168,7 @@
           <!-- Image -->
           <div class="about-image-wrap">
             <div class="about-image">
-              <img src="/images/Prof.jpg" alt="Professor in academic regalia celebrating education" />
+              <img src="/assets/Prof.jpg" alt="Professor in academic regalia celebrating education" />
             </div>
             <div class="about-image-accent" aria-hidden="true"></div>
           </div>
@@ -313,60 +315,60 @@
           <div class="swiper-wrapper">
 
             <div class="swiper-slide">
-              <img src="/images/MaMthiyane_facebook.jpg" alt="Lihle Mthiyane" loading="lazy">
+              <img src="/assets/MaMthiyane_facebook.jpg" alt="Lihle Mthiyane" loading="lazy">
             </div>
 
             <div class="swiper-slide">
-              <img src="/images/Lawyer.jpg" alt="Madolo Masinga" loading="lazy">
+              <img src="/assets/Lawyer.jpg" alt="Madolo Masinga" loading="lazy">
             </div>
 
             <div class="swiper-slide">
-              <img src="/images/Basic Ed.jpg" alt="Dept. of Basic Education" loading="lazy">
+              <img src="/assets/Basic Ed.jpg" alt="Dept. of Basic Education" loading="lazy">
             </div>
 
             <div class="swiper-slide">
-              <img src="/images/videoframe_2185.png" alt="Convocation_2185" loading="lazy">
+              <img src="/assets/videoframe_2185.png" alt="Convocation_2185" loading="lazy">
             </div>
 
             <div class="swiper-slide">
-              <img src="/images/Math_gallery.jpg" alt="Math Gallery" loading="lazy">
+              <img src="/assets/Math_gallery.jpg" alt="Math Gallery" loading="lazy">
             </div>
 
             <div class="swiper-slide">
-              <img src="/images/Bonolo Kgosieng.jpg" alt="Bonolo Kgosieng" loading="lazy">
+              <img src="/assets/Bonolo Kgosieng.jpg" alt="Bonolo Kgosieng" loading="lazy">
             </div>
 
             <!-- Add remaining images same way -->
             <div class="swiper-slide">
-              <img src="/images/Bethel Iteoluwakishi Olusola.jpg" alt="Bethel Iteoluwakishi Olusola" loading="lazy">
+              <img src="/assets/Bethel Iteoluwakishi Olusola.jpg" alt="Bethel Iteoluwakishi Olusola" loading="lazy">
             </div>
 
             <div class="swiper-slide">
-              <img src="/images/Maphuti Matloa.jpg" alt="Maphuti Matloa" loading="lazy">
+              <img src="/assets/Maphuti Matloa.jpg" alt="Maphuti Matloa" loading="lazy">
             </div>
 
             <div class="swiper-slide">
-              <img src="/images/Palesa M. Mofokeng.jpg" alt="Palesa M. Mofokeng" loading="lazy">
+              <img src="/assets/Palesa M. Mofokeng.jpg" alt="Palesa M. Mofokeng" loading="lazy">
             </div>
 
             <div class="swiper-slide">
-              <img src="/images/Phuthi.jpeg" alt="Phuthi" loading="lazy">
+              <img src="/assets/Phuthi.jpeg" alt="Phuthi" loading="lazy">
             </div>
 
             <div class="swiper-slide">
-              <img src="/images/Rakwena Suffo Molekoa.jpg" alt="Rakwena Suffo Molekoa" loading="lazy">
+              <img src="/assets/Rakwena Suffo Molekoa.jpg" alt="Rakwena Suffo Molekoa" loading="lazy">
             </div>
 
             <div class="swiper-slide">
-              <img src="/images/Theresa.jpeg" alt="Theresa" loading="lazy">
+              <img src="/assets/Theresa.jpeg" alt="Theresa" loading="lazy">
             </div>
 
             <div class="swiper-slide">
-              <img src="/images/videoframe_0 (1).png" alt="videoframe_0 (1)" loading="lazy">
+              <img src="/assets/videoframe_0 (1).png" alt="videoframe_0 (1)" loading="lazy">
             </div>
 
             <div class="swiper-slide">
-              <img src="/images/videoframe_0.png" alt="videoframe_0" loading="lazy">
+              <img src="/assets/videoframe_0.png" alt="videoframe_0" loading="lazy">
             </div>
 
           </div>
@@ -413,7 +415,7 @@
 
         <!-- Brand -->
         <div class="footer-brand">
-          <img  src="/images/logos.png" alt="<?php echo htmlspecialchars($siteName); ?> logo" />
+          <img  src="/assets/logos.png" alt="<?php echo htmlspecialchars($siteName); ?> logo" />
           <p>A South African social movement rebranding academic excellence and making education the ultimate status symbol.</p>
         </div>
 
