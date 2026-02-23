@@ -145,7 +145,7 @@
           Rebranding excellence for social impact. Celebrating education, inspiring futures, and turning learning into a lifestyle.
         </p>
         <div class="hero-actions">
-          <a href="" class="btn btn--accent">Join the Movement</a>
+          <a href="form.php" class="btn btn--accent">Join the Movement</a>
           <a href="#about" class="btn btn--outline-light">Learn More</a>
         </div>
       </div>
