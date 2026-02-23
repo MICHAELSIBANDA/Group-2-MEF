@@ -104,7 +104,10 @@
       <?php foreach ($navLinks as $link): ?>
         <a href="<?php echo $link['href']; ?>"><?php echo $link['label']; ?></a>
       <?php endforeach; ?>
-      <a href="#contact" class="nav-cta">Join Movement</a>
+      <a href="/form.php" class="nav-cta">Join Movement</a>
+      <a href="nomination.csv" class="download-btn" download>
+          Download Nomination
+      </a>
     </nav>
 
     <button class="mobile-toggle" aria-label="Open menu" aria-expanded="false" onclick="toggleMenu()">
@@ -121,7 +124,7 @@
       <?php foreach ($navLinks as $link): ?>
         <a href="<?php echo $link['href']; ?>" onclick="closeMenu()"><?php echo $link['label']; ?></a>
       <?php endforeach; ?>
-      <a href="#contact" class="nav-cta" onclick="closeMenu()">Join Movement</a>
+      <a href="/form.php" class="nav-cta" onclick="closeMenu()">Join Movement</a>
     </nav>
   </header>
 
@@ -142,7 +145,7 @@
           Rebranding excellence for social impact. Celebrating education, inspiring futures, and turning learning into a lifestyle.
         </p>
         <div class="hero-actions">
-          <a href="#contact" class="btn btn--accent">Join the Movement</a>
+          <a href="" class="btn btn--accent">Join the Movement</a>
           <a href="#about" class="btn btn--outline-light">Learn More</a>
         </div>
       </div>
@@ -390,15 +393,28 @@
     <section id="contact" class="cta">
       <div class="container">
         <div class="cta-content">
-          <span class="section-label">Be Part of the Change</span>
-          <h2 class="section-title" style="color: #ffffff;">Join the Movement</h2>
+          <span class="section-label">Get in Touch</span>
+          <h2 class="section-title" style="color: #ffffff;">Contact Us</h2>
           <p class="cta-desc">
-            Whether you are a student, graduate, mentor, or ally of education &mdash; there is a place for you in the <?php echo $siteAbbr; ?> community. Let us make education the most fashionable pursuit of our generation.
+            Have a question, partnership idea, or want to get involved with
+            <strong><?php echo $siteAbbr; ?></strong>?  
+            Send us a message and we'll get back to you.
           </p>
-          <div class="cta-actions">
-            <a href="mailto:<?php echo $contactEmail; ?>" class="btn btn--accent">Get in Touch</a>
-            <a href="#stories" class="btn btn--outline-white">Read Stories</a>
-          </div>
+          <form class="contact-form" method="post" action="#">
+            <div class="form-group">
+              <input type="text" name="name" placeholder="Your Name" required>
+            </div>
+
+            <div class="form-group">
+              <input type="email" name="email" placeholder="Your Email" required>
+            </div>
+
+            <div class="form-group">
+              <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn--accent">Send Message</button>
+          </form>
         </div>
       </div>
     </section>

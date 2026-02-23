@@ -169,6 +169,39 @@ button {
   border-color: rgba(255, 255, 255, 0.6);
   color: var(--color-white);
 }
+/* ============================================
+   Download Button for Nav Bar
+============================================ */
+/* Download Button - Match Join Movement Button */
+.download-btn {
+  display: inline-flex;           /* inline like other buttons */
+  align-items: center;            /* vertically center text */
+  justify-content: center;
+  padding: 10px 20px;             /* same as nav-cta */
+  border-radius: var(--radius);
+  background-color: var(--color-primary); /* green like Join Movement */
+  color: white;      /* white text */
+  font-size: 0.875rem;            /* same as nav-cta */
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;         /* match nav-cta letter spacing */
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.download-btn:hover {
+  background-color: var(--color-primary-light); /* hover effect like Join Movement */
+  transform: translateY(-1px); /* subtle lift on hover */
+}
+
+nav a.download-btn {
+  color: #ffffff;
+}
+
+nav a.download-btn:hover {
+  color: #ffffff;
+}
 
 /* ============================================
    HEADER
@@ -1086,3 +1119,27 @@ button {
     padding: 128px 0;
   }
 }
+/* CONTACT FORM */
+.contact-form {
+  max-width: 520px;
+  margin: 40px auto 0;
+}
+
+.contact-form .form-group {
+  margin-bottom: 18px;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  font-size: 0.95rem;
+}
+
+.contact-form textarea {
+  resize: none;
+}
+
