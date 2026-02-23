@@ -1,0 +1,193 @@
+/* ============================================
+   VARIABLES
+============================================ */
+
+:root {
+  --color-primary: #2d5016;
+  --color-primary-light: #3a6a1c;
+  --color-accent: #d4af37;
+  --color-bg-card: #ffffff;
+  --color-border: #e5e5e0;
+  --color-text-muted: #5A5A40;
+}
+
+/* ============================================
+   PAGE BACKGROUND
+============================================ */
+
+.convocation-page {
+  min-height: 100vh;
+  padding: 80px 20px;
+  background: linear-gradient(135deg, #1f3b0f, #2d5016);
+  font-family: 'Inter', sans-serif;
+}
+
+/* ============================================
+   CONTAINER
+============================================ */
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* ============================================
+   HEADER
+============================================ */
+
+.page-header {
+  text-align: center;
+  margin-bottom: 60px;
+  color: white;
+}
+
+.page-header h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 60px;
+  font-weight: 300;
+  margin-bottom: 15px;
+}
+
+.page-header p {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 18px;
+  opacity: 0.9;
+}
+
+.trophy {
+  font-size: 32px;
+  margin-bottom: 15px;
+}
+
+/* ============================================
+   FORM CARD
+============================================ */
+
+.form-wrapper {
+  background: var(--color-bg-card);
+  padding: 50px;
+  border-radius: 32px;
+  border: 1px solid var(--color-border);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+/* ============================================
+   FORM HEADER
+============================================ */
+
+.form-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+.form-header h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  font-weight: 500;
+}
+
+/* ============================================
+   FORM ELEMENTS
+============================================ */
+
+.form-group {
+  margin-bottom: 25px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 14px;
+  border: 1px solid var(--color-border);
+  font-size: 14px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(45, 80, 22, 0.15);
+}
+
+/* ============================================
+   GRID
+============================================ */
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* ============================================
+   BUTTON
+============================================ */
+
+.submit-btn {
+  width: 100%;
+  padding: 16px;
+  border-radius: 999px;
+  border: none;
+  background-color: var(--color-primary);
+  color: white;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.submit-btn:hover {
+  background-color: var(--color-primary-light);
+  transform: translateY(-2px);
+}
+
+
+/* ============================================
+   SUCCESS MESSAGE
+============================================ */
+
+.success-message {
+  background: #e6f4ea;
+  color: #1e4620;
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* ============================================
+   RESPONSIVE
+============================================ */
+
+@media (max-width: 768px) {
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .form-wrapper {
+    padding: 30px;
+  }
+
+  .page-header h1 {
+    font-size: 42px;
+  }
+}
