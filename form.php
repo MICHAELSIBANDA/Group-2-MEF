@@ -1,9 +1,15 @@
 <?php
 declare(strict_types=1);
 
-  session_start();
+session_start();
 
 $correctPassword = "1234"; // Change this to your secure password
+
+if (isset($_POST['logout'])) {
+    session_destroy();
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
+}
 
 if (isset($_POST['login'])) {
     if ($_POST['password'] === $correctPassword) {
@@ -11,12 +17,6 @@ if (isset($_POST['login'])) {
     } else {
         $loginError = "Incorrect password.";
     }
-}
-
-if (isset($_POST['logout'])) {
-    session_destroy();
-    header("Location: " . $_SERVER['PHP_SELF']);
-    exit();
 }
 
 require __DIR__ . "/config/db.php";
