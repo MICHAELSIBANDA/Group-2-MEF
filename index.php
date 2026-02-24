@@ -1,4 +1,25 @@
 <?php
+  // ===============================
+  // DB: Load latest testimonies
+  // ===============================
+  require __DIR__ . "/config/db.php";
+
+  $testimonies = [];
+  try {
+    $stmt = $pdo->query("
+      SELECT full_name, location, field_of_study, title, story, quote
+      FROM testimonies
+      ORDER BY created_at DESC
+      LIMIT 6
+    ");
+    $testimonies = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  } catch (Throwable $e) {
+    $testimonies = [];
+  }
+
+  // ===============================
+  // Site content
+  // ===============================
   $currentYear = date("Y");
   $siteName = "Make Education Fashionable";
   $siteAbbr = "MEF";
@@ -20,6 +41,7 @@
     ["value" => "15+",  "label" => "Partner Organisations"],
   ];
 
+  // Featured / static stories (kept)
   $stories = [
     [
       "name"     => "Naledi Mokoena",
@@ -64,11 +86,33 @@
 
   $socialLinks = [
     ["label" => "Facebook",  "href" => "https://facebook.com/kgethi.phakeng",         "icon" => "facebook"],
-    ["label" => "Twitter",   "href" => "https://twitter.com/@FabAcademic",             "icon" => "twitter"],
-    ["label" => "LinkedIn",  "href" => "https://linkedin.com/in/mamokgethiphakeng",    "icon" => "linkedin"],
+    ["label" => "Twitter",   "href" => "https://twitter.com/@FabAcademic",            "icon" => "twitter"],
+    ["label" => "LinkedIn",  "href" => "https://linkedin.com/in/mamokgethiphakeng",   "icon" => "linkedin"],
   ];
 
-  
+  // ===============================
+  // Combine DB testimonies + featured ones
+  // ===============================
+  $combinedStories = [];
+
+  foreach ($testimonies as $t) {
+    $storyText = trim((string)($t["story"] ?? ""));
+    $excerptPlain = mb_substr(strip_tags($storyText), 0, 190);
+    if (mb_strlen(strip_tags($storyText)) > 190) $excerptPlain .= "...";
+
+    $combinedStories[] = [
+      "name"     => (string)($t["full_name"] ?? "Anonymous"),
+      "title"    => (string)($t["title"] ?? "Student Testimony"),
+      "location" => (string)(($t["location"] ?? "") !== "" ? $t["location"] : "South Africa"),
+      "field"    => (string)(($t["field_of_study"] ?? "") !== "" ? $t["field_of_study"] : "Student"),
+      "excerpt"  => htmlspecialchars($excerptPlain, ENT_QUOTES, "UTF-8"),
+      "quote"    => (string)(($t["quote"] ?? "") !== "" ? $t["quote"] : "Education is power."),
+    ];
+  }
+
+  foreach ($stories as $s) {
+    $combinedStories[] = $s;
+  }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -78,47 +122,41 @@
   <meta name="description" content="A South African social movement rebranding academic excellence. Celebrating education, inspiring futures, and making achievement fashionable." />
   <title><?php echo htmlspecialchars($siteName); ?> | <?php echo $siteAbbr; ?></title>
 
-  /*
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
- */
-  <!-- Stylesheet -->
+  <!-- Styles -->
   <link rel="stylesheet" href="/styles/styles.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+
+  <style>
+    /* Small helper so the "Share Your Testimony" button looks good even if your CSS doesn't style it */
+    .share-testimony-wrap { margin-top: 14px; display:flex; justify-content:center; }
+  </style>
 </head>
 <body>
 
-
   <!-- ========== HEADER ========== -->
-  <!-- ============================ -->
- <header class="site-header" role="banner">
-  <div class="header-inner">
-    <!-- UPDATED LOGO -->
-    <a href="#home" class="logo" aria-label="<?php echo $siteAbbr; ?> Home">
-      <img src="/assets/logos.png" alt="<?php echo htmlspecialchars($siteName); ?> logo" />
-    </a>
-
-    <nav class="nav-desktop" aria-label="Main navigation">
-      <?php foreach ($navLinks as $link): ?>
-        <a href="<?php echo $link['href']; ?>"><?php echo $link['label']; ?></a>
-      <?php endforeach; ?>
-      <a href="/form.php" class="nav-cta">Join Movement</a>
-      <a href="nomination.csv" class="download-btn" download>
-          Download Nomination
+  <header class="site-header" role="banner">
+    <div class="header-inner">
+      <a href="#home" class="logo" aria-label="<?php echo $siteAbbr; ?> Home">
+        <img src="/assets/logos.png" alt="<?php echo htmlspecialchars($siteName); ?> logo" />
       </a>
-    </nav>
 
-    <button class="mobile-toggle" aria-label="Open menu" aria-expanded="false" onclick="toggleMenu()">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" id="menu-icon">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-      </svg>
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" id="close-icon" style="display:none;">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-      </svg>
-    </button>
-  </div>
+      <nav class="nav-desktop" aria-label="Main navigation">
+        <?php foreach ($navLinks as $link): ?>
+          <a href="<?php echo $link['href']; ?>"><?php echo $link['label']; ?></a>
+        <?php endforeach; ?>
+        <a href="/form.php" class="nav-cta">Join Movement</a>
+        <a href="nomination.csv" class="download-btn" download>Download Nomination</a>
+      </nav>
+
+      <button class="mobile-toggle" aria-label="Open menu" aria-expanded="false" onclick="toggleMenu()">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" id="menu-icon">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" id="close-icon" style="display:none;">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
 
     <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
       <?php foreach ($navLinks as $link): ?>
@@ -131,7 +169,6 @@
   <main>
 
     <!-- ========== HERO ========== -->
-    <!-- ========================== -->
     <section id="home" class="hero">
       <video class="hero-bg" autoplay muted loop playsinline>
         <source src="/assets/background_video.mp4" type="video/mp4">
@@ -149,16 +186,9 @@
           <a href="#about" class="btn btn--outline-light">Learn More</a>
         </div>
       </div>
-
-      <div class="hero-scroll" aria-hidden="true">
-        <div class="hero-scroll-pill">
-          <div class="hero-scroll-dot"></div>
-        </div>
-      </div>
     </section>
 
     <!-- ========== ABOUT ========== -->
-    <!-- =========================== -->
     <section id="about" class="about">
       <div class="container">
         <div class="about-header">
@@ -168,7 +198,6 @@
         </div>
 
         <div class="about-grid">
-          <!-- Image -->
           <div class="about-image-wrap">
             <div class="about-image">
               <img src="/assets/Prof.jpg" alt="Professor in academic regalia celebrating education" />
@@ -176,7 +205,6 @@
             <div class="about-image-accent" aria-hidden="true"></div>
           </div>
 
-          <!-- Text -->
           <div class="about-text">
             <p>
               <?php echo $siteAbbr; ?> is a South African social movement that &ldquo;rebrands&rdquo; academic excellence. It is an initiative that uses the glamour of fashion and celebrity culture to make graduation and literacy the ultimate status symbols.
@@ -186,7 +214,6 @@
             </p>
 
             <div class="about-features">
-              <!-- Mission -->
               <div class="about-feature">
                 <div class="about-feature-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="var(--color-primary)"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
@@ -197,7 +224,6 @@
                 </div>
               </div>
 
-              <!-- Vision -->
               <div class="about-feature">
                 <div class="about-feature-icon about-feature-icon--accent">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="var(--color-accent)"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
@@ -208,7 +234,6 @@
                 </div>
               </div>
 
-              <!-- Community -->
               <div class="about-feature">
                 <div class="about-feature-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="var(--color-primary)"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
@@ -224,14 +249,10 @@
       </div>
     </section>
 
-
     <!-- ========== IMPACT ========== -->
-    <!-- ========== SECTION ========= -->
     <section id="impact" class="impact">
       <div class="container">
         <div class="impact-grid">
-
-          <!-- Text + Stats -->
           <div class="impact-text">
             <span class="section-label">Our Impact</span>
             <h2 class="section-title">Transforming Lives Through Education</h2>
@@ -252,9 +273,7 @@
       </div>
     </section>
 
-
     <!-- ========== TESTIMONIALS ========== -->
-    <!-- ========== SECTION AREA ========== -->
     <section id="stories" class="testimonials">
       <div class="container">
         <div class="testimonials-header">
@@ -264,10 +283,14 @@
           <p class="sub">
             Every graduate has a story of perseverance. These are just a few of the remarkable journeys that prove education is worth every sacrifice.
           </p>
+
+          <div class="share-testimony-wrap">
+            <a href="testimony.php" class="btn btn--accent">Share Your Testimony</a>
+          </div>
         </div>
 
         <div class="testimonials-grid">
-          <?php foreach ($stories as $story): ?>
+          <?php foreach ($combinedStories as $story): ?>
             <div class="story-card">
               <div class="story-card-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
@@ -302,8 +325,7 @@
       </div>
     </section>
 
-
-    <!-- ==========GALLERY ========== -->
+    <!-- ========== GALLERY ========== -->
     <section id="gallery" class="gallery">
       <div class="container">
         <div class="gallery-header">
@@ -314,82 +336,33 @@
             A glimpse into our events, workshops, and celebrations where education takes center stage.
           </p>
         </div>
+
         <div class="swiper premiumSwiper">
           <div class="swiper-wrapper">
-
-            <div class="swiper-slide">
-              <img src="/assets/MaMthiyane_facebook.jpg" alt="Lihle Mthiyane" loading="lazy">
-            </div>
-
-            <div class="swiper-slide">
-              <img src="/assets/Lawyer.jpg" alt="Madolo Masinga" loading="lazy">
-            </div>
-
-            <div class="swiper-slide">
-              <img src="/assets/Basic Ed.jpg" alt="Dept. of Basic Education" loading="lazy">
-            </div>
-
-            <div class="swiper-slide">
-              <img src="/assets/videoframe_2185.png" alt="Convocation_2185" loading="lazy">
-            </div>
-
-            <div class="swiper-slide">
-              <img src="/assets/Math_gallery.jpg" alt="Math Gallery" loading="lazy">
-            </div>
-
-            <div class="swiper-slide">
-              <img src="/assets/Bonolo Kgosieng.jpg" alt="Bonolo Kgosieng" loading="lazy">
-            </div>
-
-            <!-- Add remaining images same way -->
-            <div class="swiper-slide">
-              <img src="/assets/Bethel Iteoluwakishi Olusola.jpg" alt="Bethel Iteoluwakishi Olusola" loading="lazy">
-            </div>
-
-            <div class="swiper-slide">
-              <img src="/assets/Maphuti Matloa.jpg" alt="Maphuti Matloa" loading="lazy">
-            </div>
-
-            <div class="swiper-slide">
-              <img src="/assets/Palesa M. Mofokeng.jpg" alt="Palesa M. Mofokeng" loading="lazy">
-            </div>
-
-            <div class="swiper-slide">
-              <img src="/assets/Phuthi.jpeg" alt="Phuthi" loading="lazy">
-            </div>
-
-            <div class="swiper-slide">
-              <img src="/assets/Rakwena Suffo Molekoa.jpg" alt="Rakwena Suffo Molekoa" loading="lazy">
-            </div>
-
-            <div class="swiper-slide">
-              <img src="/assets/Theresa.jpeg" alt="Theresa" loading="lazy">
-            </div>
-
-            <div class="swiper-slide">
-              <img src="/assets/videoframe_0 (1).png" alt="videoframe_0 (1)" loading="lazy">
-            </div>
-
-            <div class="swiper-slide">
-              <img src="/assets/videoframe_0.png" alt="videoframe_0" loading="lazy">
-            </div>
-
+            <div class="swiper-slide"><img src="/assets/MaMthiyane_facebook.jpg" alt="Lihle Mthiyane" loading="lazy"></div>
+            <div class="swiper-slide"><img src="/assets/Lawyer.jpg" alt="Madolo Masinga" loading="lazy"></div>
+            <div class="swiper-slide"><img src="/assets/Basic Ed.jpg" alt="Dept. of Basic Education" loading="lazy"></div>
+            <div class="swiper-slide"><img src="/assets/videoframe_2185.png" alt="Convocation_2185" loading="lazy"></div>
+            <div class="swiper-slide"><img src="/assets/Math_gallery.jpg" alt="Math Gallery" loading="lazy"></div>
+            <div class="swiper-slide"><img src="/assets/Bonolo Kgosieng.jpg" alt="Bonolo Kgosieng" loading="lazy"></div>
+            <div class="swiper-slide"><img src="/assets/Bethel Iteoluwakishi Olusola.jpg" alt="Bethel Iteoluwakishi Olusola" loading="lazy"></div>
+            <div class="swiper-slide"><img src="/assets/Maphuti Matloa.jpg" alt="Maphuti Matloa" loading="lazy"></div>
+            <div class="swiper-slide"><img src="/assets/Palesa M. Mofokeng.jpg" alt="Palesa M. Mofokeng" loading="lazy"></div>
+            <div class="swiper-slide"><img src="/assets/Phuthi.jpeg" alt="Phuthi" loading="lazy"></div>
+            <div class="swiper-slide"><img src="/assets/Rakwena Suffo Molekoa.jpg" alt="Rakwena Suffo Molekoa" loading="lazy"></div>
+            <div class="swiper-slide"><img src="/assets/Theresa.jpeg" alt="Theresa" loading="lazy"></div>
+            <div class="swiper-slide"><img src="/assets/videoframe_0 (1).png" alt="videoframe_0 (1)" loading="lazy"></div>
+            <div class="swiper-slide"><img src="/assets/videoframe_0.png" alt="videoframe_0" loading="lazy"></div>
           </div>
 
-          <!-- Navigation -->
           <div class="swiper-button-next"></div>
           <div class="swiper-button-prev"></div>
-
-          <!-- Pagination -->
           <div class="swiper-pagination"></div>
         </div>
+      </div>
     </section>
 
-
-
-
-    <!-- ========== CTA ========== -->
-    <!-- ========================= -->
+    <!-- ========== CONTACT ========== -->
     <section id="contact" class="cta">
       <div class="container">
         <div class="cta-content">
@@ -397,7 +370,7 @@
           <h2 class="section-title" style="color: #ffffff;">Contact Us</h2>
           <p class="cta-desc">
             Have a question, partnership idea, or want to get involved with
-            <strong><?php echo $siteAbbr; ?></strong>?  
+            <strong><?php echo $siteAbbr; ?></strong>?
             Send us a message and we'll get back to you.
           </p>
           <form class="contact-form" method="post" action="#">
@@ -421,21 +394,15 @@
 
   </main>
 
-
-
   <!-- ========== FOOTER ========== -->
-  <!-- ============================ -->
   <footer class="site-footer" role="contentinfo">
     <div class="footer-inner">
       <div class="footer-grid">
-
-        <!-- Brand -->
         <div class="footer-brand">
-          <img  src="/assets/logos.png" alt="<?php echo htmlspecialchars($siteName); ?> logo" />
+          <img src="/assets/logos.png" alt="<?php echo htmlspecialchars($siteName); ?> logo" />
           <p>A South African social movement rebranding academic excellence and making education the ultimate status symbol.</p>
         </div>
 
-        <!-- Quick Links -->
         <div>
           <h3 class="footer-heading">Quick Links</h3>
           <nav class="footer-links" aria-label="Footer navigation">
@@ -445,18 +412,11 @@
           </nav>
         </div>
 
-        <!-- Social -->
         <div>
           <h3 class="footer-heading">Connect With Us</h3>
           <div class="social-links">
             <?php foreach ($socialLinks as $social): ?>
-              <a
-                href="<?php echo $social['href']; ?>"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="<?php echo $social['label']; ?>"
-                class="social-link"
-              >
+              <a href="<?php echo $social['href']; ?>" target="_blank" rel="noopener noreferrer" aria-label="<?php echo $social['label']; ?>" class="social-link">
                 <?php if ($social['icon'] === 'facebook'): ?>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
                 <?php elseif ($social['icon'] === 'twitter'): ?>
@@ -479,7 +439,7 @@
     </div>
   </footer>
 
-  <!-- Minimal vanilla JS for mobile menu toggle only -->
+  <!-- Mobile menu JS -->
   <script>
     function toggleMenu() {
       var nav = document.getElementById('mobileNav');
@@ -517,84 +477,58 @@
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
   <script>
-  const swiper = new Swiper(".premiumSwiper", {
-    loop: true,
-    centeredSlides: true,
-    spaceBetween: 30,
-    speed: 900,
-
-    autoplay: {
-      delay: 2500,
-      disableOnInteraction: false,
-    },
-
-    pagination: {
-      el: ".swiper-pagination",
-      clickable: true,
-    },
-
-    navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev",
-    },
-
-    lazy: true,
-
-    breakpoints: {
-      0: {
-        slidesPerView: 1,
+    const swiper = new Swiper(".premiumSwiper", {
+      loop: true,
+      centeredSlides: true,
+      spaceBetween: 30,
+      speed: 900,
+      autoplay: { delay: 2500, disableOnInteraction: false },
+      pagination: { el: ".swiper-pagination", clickable: true },
+      navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
+      lazy: true,
+      breakpoints: {
+        0: { slidesPerView: 1 },
+        768: { slidesPerView: 2 },
+        1024: { slidesPerView: 3 },
       },
-      768: {
-        slidesPerView: 2,
-      },
-      1024: {
-        slidesPerView: 3,
-      },
-    },
-  });
+    });
 
-  // Pause on hover
-  const swiperContainer = document.querySelector(".premiumSwiper");
+    const swiperContainer = document.querySelector(".premiumSwiper");
+    if (swiperContainer) {
+      swiperContainer.addEventListener("mouseenter", () => swiper.autoplay.stop());
+      swiperContainer.addEventListener("mouseleave", () => swiper.autoplay.start());
+    }
 
-  swiperContainer.addEventListener("mouseenter", () => {
-    swiper.autoplay.stop();
-  });
+    document.querySelectorAll(".swiper-slide img").forEach(img => {
+      img.addEventListener("click", () => {
+        const overlay = document.createElement("div");
+        overlay.style.position = "fixed";
+        overlay.style.top = 0;
+        overlay.style.left = 0;
+        overlay.style.width = "100%";
+        overlay.style.height = "100%";
+        overlay.style.background = "rgba(0,0,0,0.9)";
+        overlay.style.display = "flex";
+        overlay.style.alignItems = "center";
+        overlay.style.justifyContent = "center";
+        overlay.style.zIndex = 9999;
 
-  swiperContainer.addEventListener("mouseleave", () => {
-    swiper.autoplay.start();
-  });
+        const bigImage = document.createElement("img");
+        bigImage.src = img.src;
+        bigImage.style.maxWidth = "90%";
+        bigImage.style.maxHeight = "90%";
+        bigImage.style.borderRadius = "12px";
 
-  // Lightbox effect
-  document.querySelectorAll(".swiper-slide img").forEach(img => {
-    img.addEventListener("click", () => {
-      const overlay = document.createElement("div");
-      overlay.style.position = "fixed";
-      overlay.style.top = 0;
-      overlay.style.left = 0;
-      overlay.style.width = "100%";
-      overlay.style.height = "100%";
-      overlay.style.background = "rgba(0,0,0,0.9)";
-      overlay.style.display = "flex";
-      overlay.style.alignItems = "center";
-      overlay.style.justifyContent = "center";
-      overlay.style.zIndex = 9999;
+        overlay.appendChild(bigImage);
+        document.body.appendChild(overlay);
 
-      const bigImage = document.createElement("img");
-      bigImage.src = img.src;
-      bigImage.style.maxWidth = "90%";
-      bigImage.style.maxHeight = "90%";
-      bigImage.style.borderRadius = "12px";
-
-      overlay.appendChild(bigImage);
-      document.body.appendChild(overlay);
-
-      overlay.addEventListener("click", () => {
-        document.body.removeChild(overlay);
+        overlay.addEventListener("click", () => {
+          document.body.removeChild(overlay);
+        });
       });
     });
-  });
-</script>
+  </script>
+
 </body>
 </html>
