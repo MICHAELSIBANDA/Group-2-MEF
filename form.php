@@ -94,7 +94,7 @@ $sent = isset($_GET["sent"]) && $_GET["sent"] === "1";
     <form method="POST" action="submit_nomination.php">
 
       <h2 class="form-section-title">Award Category</h2>
-      <div class="field">
+<div class="field">
         <label for="award_category_id">Select category</label>
         <select id="award_category_id" name="award_category_id" required>
           <option value="">-- Choose category --</option>

@@ -2,6 +2,23 @@
   // ===============================
   // DB: Load latest testimonies
   // ===============================
+  session_start();
+
+$correctPassword = "1234"; // Change this to your secure password
+
+if (isset($_POST['login'])) {
+    if ($_POST['password'] === $correctPassword) {
+        $_SESSION['access_granted'] = true;
+    } else {
+        $loginError = "Incorrect password.";
+    }
+}
+
+if (isset($_POST['logout'])) {
+    session_destroy();
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
+}
   require __DIR__ . "/config/db.php";
 
   $testimonies = [];
@@ -145,7 +162,41 @@
           <a href="<?php echo $link['href']; ?>"><?php echo $link['label']; ?></a>
         <?php endforeach; ?>
         <a href="/form.php" class="nav-cta">Join Movement</a>
-        <a href="nomination.csv" class="download-btn" download>Download Nomination</a>
+        
+        <!-- PASSWORD PROTECTED DOWNLOAD -->
+      <?php if (isset($_SESSION['access_granted'])): ?>
+
+        <a href="export.php" class="download-btn" download>
+          Download Nomination
+        </a>
+
+        <form method="post" style="display:inline;">
+          <button type="submit" name="logout" class="nav-cta">
+            Logout
+          </button>
+        </form>
+
+      <?php else: ?>
+
+        <form method="post" class="nav-login-form">
+          <input 
+            type="password" 
+            name="password" 
+            placeholder="Password" 
+            required
+          >
+          <button type="submit" name="login" class="nav-cta">
+            Unlock
+          </button>
+        </form>
+
+        <?php if (isset($loginError)): ?>
+          <span style="color:red; font-size:12px; margin-left:8px;">
+            <?php echo $loginError; ?>
+          </span>
+        <?php endif; ?>
+
+      <?php endif; ?>
       </nav>
 
       <button class="mobile-toggle" aria-label="Open menu" aria-expanded="false" onclick="toggleMenu()">
