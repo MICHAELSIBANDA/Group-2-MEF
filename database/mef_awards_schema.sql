@@ -90,3 +90,10 @@ CREATE TABLE nomination (
   CONSTRAINT fk_nomination_category
     FOREIGN KEY (award_category_id) REFERENCES award_category (award_category_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO award_category (category_name, description) VALUES
+('AI Champion Award', NULL),
+('Entrepreneur of the year Award', NULL),
+('African Development Research Award', NULL),
+('Agricultural Innovation & Impact Award', NULL),
+('Emerging Business Award', NULL);
