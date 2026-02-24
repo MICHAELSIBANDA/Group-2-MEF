@@ -163,40 +163,6 @@ if (isset($_POST['logout'])) {
         <?php endforeach; ?>
         <a href="/form.php" class="nav-cta">Join Movement</a>
         
-        <!-- PASSWORD PROTECTED DOWNLOAD -->
-      <?php if (isset($_SESSION['access_granted'])): ?>
-
-        <a href="export.php" class="download-btn" download>
-          Download Nomination
-        </a>
-
-        <form method="post" style="display:inline;">
-          <button type="submit" name="logout" class="nav-cta">
-            Logout
-          </button>
-        </form>
-
-      <?php else: ?>
-
-        <form method="post" class="nav-login-form">
-          <input 
-            type="password" 
-            name="password" 
-            placeholder="Password" 
-            required
-          >
-          <button type="submit" name="login" class="nav-cta">
-            Unlock
-          </button>
-        </form>
-
-        <?php if (isset($loginError)): ?>
-          <span style="color:red; font-size:12px; margin-left:8px;">
-            <?php echo $loginError; ?>
-          </span>
-        <?php endif; ?>
-
-      <?php endif; ?>
       </nav>
 
       <button class="mobile-toggle" aria-label="Open menu" aria-expanded="false" onclick="toggleMenu()">
@@ -307,6 +273,7 @@ if (isset($_POST['logout'])) {
           <div class="impact-text">
             <span class="section-label">Our Impact</span>
             <h2 class="section-title">Transforming Lives Through Education</h2>
+            <hr class="section-divider section-divider--center" />
             <p class="impact-description">
               Across South Africa, we are proving that education can be the ultimate status symbol. Through events, mentorship, and storytelling, <?php echo $siteAbbr; ?> is building a movement where young people see academic success as the most aspirational path forward.
             </p>

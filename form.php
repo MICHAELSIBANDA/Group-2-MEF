@@ -1,6 +1,24 @@
 <?php
 declare(strict_types=1);
 
+  session_start();
+
+$correctPassword = "1234"; // Change this to your secure password
+
+if (isset($_POST['login'])) {
+    if ($_POST['password'] === $correctPassword) {
+        $_SESSION['access_granted'] = true;
+    } else {
+        $loginError = "Incorrect password.";
+    }
+}
+
+if (isset($_POST['logout'])) {
+    session_destroy();
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
+}
+
 require __DIR__ . "/config/db.php";
 
 function e(string $s): string {
@@ -27,8 +45,8 @@ $sent = isset($_GET["sent"]) && $_GET["sent"] === "1";
   <style>
     body { background: #f5f7fb; color: #111827; }
     .page-wrap{ max-width: 980px; margin: 48px auto; padding: 0 16px; }
-    .page-title{ margin:0 0 6px; font-size:2rem; font-weight:800; letter-spacing:-0.02em; }
-    .page-subtitle{ margin:0; color:#4b5563; line-height:1.6; }
+    .page-title{ margin:0 0 6px; font-size:2rem; font-weight:800; letter-spacing:-0.02em; text-align: center;}
+    .page-subtitle{ margin:0; color:#4b5563; line-height:1.6; text-align: center; }
     .card{
       background:#fff; border:1px solid #e5e7eb; border-radius:18px;
       padding:26px; box-shadow:0 12px 30px rgba(0,0,0,.08); margin-top:18px;
@@ -50,7 +68,7 @@ $sent = isset($_GET["sent"]) && $_GET["sent"] === "1";
     textarea{ min-height:130px; resize:vertical; line-height:1.5; }
     input:focus, select:focus, textarea:focus{ border-color:#111827; box-shadow:0 0 0 4px rgba(17,24,39,.08); }
     .hint{ margin-top:6px; color:#6b7280; font-size:.92rem; line-height:1.4; }
-    .actions{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; align-items:center; }
+    .actions{ display:flex; gap:10px; flex-wrap:wrap; margin-top:20px; align-items:center; justify-content: center;}
     .btn-solid{
       border:0; border-radius:12px; padding:12px 16px; cursor:pointer; font-weight:800;
       background:#111827; color:#fff; text-decoration:none; display:inline-flex; align-items:center; justify-content:center;
@@ -94,7 +112,7 @@ $sent = isset($_GET["sent"]) && $_GET["sent"] === "1";
     <form method="POST" action="submit_nomination.php">
 
       <h2 class="form-section-title">Award Category</h2>
-<div class="field">
+      <div class="field">
         <label for="award_category_id">Select category</label>
         <select id="award_category_id" name="award_category_id" required>
           <option value="">-- Choose category --</option>
@@ -200,6 +218,38 @@ $sent = isset($_GET["sent"]) && $_GET["sent"] === "1";
       </div>
 
     </form>
+  </div>
+  <div class="card" style="margin-top: 50px;">
+    <!-- PASSWORD PROTECTED DOWNLOAD -->
+    <?php if (isset($_SESSION['access_granted'])): ?>
+      <h2 class="form-section-title" style="display: flex; justify-content: center;">Download Nomination</h2>
+      <div class="actions">
+        <a href="export.php" class="btn-solid">Download Nomination</a>
+        <form method="post" style="display:inline;">
+          <button type="submit" name="logout" class="btn-ghost">Logout</button>
+        </form>
+      </div>
+    <?php else: ?>
+      <h2 class="form-section-title" style="display:flex; justify-content: center;">Access Report</h2>
+      <div class="field">
+        <form method="post">
+          <input 
+            type="password" 
+            name="password" 
+            placeholder="Enter password" 
+            required
+          >
+          <div class="actions" style="margin-top:14px;">
+            <button type="submit" name="login" class="btn-solid">Unlock</button>
+          </div>
+          <?php if (isset($loginError)): ?>
+            <div style="color:#dc2626; font-size:14px; margin-top:8px; font-weight:600;">
+              <?php echo e($loginError); ?>
+            </div>
+          <?php endif; ?>
+        </form>
+      </div>
+    <?php endif; ?>
   </div>
 </div>
 
