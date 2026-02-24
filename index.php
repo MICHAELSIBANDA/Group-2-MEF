@@ -424,7 +424,7 @@ if (isset($_POST['logout'])) {
             <strong><?php echo $siteAbbr; ?></strong>?
             Send us a message and we'll get back to you.
           </p>
-          <form class="contact-form" method="post" action="#">
+          <form class="contact-form" method="post" action="contact_send.php">
             <div class="form-group">
               <input type="text" name="name" placeholder="Your Name" required>
             </div>
