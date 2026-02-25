@@ -352,7 +352,7 @@ if (isset($_POST['logout'])) {
 
     <div class="hero-actions" style="justify-content:center; margin-top: 22px;">
   
-  <a href="https://computicket.com/page/home"
+  <a href="https://www.quicket.co.za/events/346942-make-education-fashionable-convocation-2025/#/"
      target="_blank"
      rel="noopener noreferrer"
      class="btn btn--accent">
