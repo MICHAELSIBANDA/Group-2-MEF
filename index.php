@@ -46,6 +46,7 @@ if (isset($_POST['logout'])) {
     ["label" => "Home",         "href" => "#home"],
     ["label" => "About",        "href" => "#about"],
     ["label" => "Impact",       "href" => "#impact"],
+    ["label" => "Services",     "href" => "#services"],
     ["label" => "Testimonials", "href" => "#stories"],
     ["label" => "Gallery",      "href" => "#gallery"],
     ["label" => "Contact",      "href" => "#contact"],
@@ -57,6 +58,33 @@ if (isset($_POST['logout'])) {
     ["value" => "200+", "label" => "Success Stories"],
     ["value" => "15+",  "label" => "Partner Organisations"],
   ];
+
+  $services = [
+  [
+    "title" => "High-Impact Event & Award Services",
+    "desc"  => "An annual event (e.g., 2025 in Pretoria) that honors academic achievement and innovation across all levels, from undergraduate to professorial, and rewards graduates who use their education to make an impact. The awards include cash prizes (R150,000 in 2025) to recognize and celebrate success stories."
+  ],
+  [
+    "title" => "Social Media Advocacy and Storytelling",
+    "desc"  => " major component where participants share stories and pictures of their academic journeys, highlighting how education brought them confidence and purpose to counter negative, toxic social media narratives."
+  ],
+  [
+    "title" => "Mentorship Programs",
+    "desc"  => "The campaign has established mentorship initiatives where tutors, often recent graduates, adopt and guide high school learners to help them attain tertiary qualifications and navigate post-school life."
+  ],
+  [
+    "title" => "Encouraging Slay and Learn (Balancing Passion and Education)",
+    "desc"  => "The campaign advocates that students can combine fashion, style, and personal branding with academic rigor, promoting the idea that being both smart and stylish is achievable."
+  ],
+  [
+    "title" => "Skills Development and Entrepreneurial Focus",
+    "desc"  => "The initiative emphasizes the importance of acquiring practical skills (like digital skills) alongside academic qualifications to ensure economic relevance and combat high youth unemployment."
+  ],
+  [
+    "title" => "Inspirational Gatherings and Activism",
+    "desc"  => " Hosting events (often in partnership with organizations like the Department of Higher Education and Training) to inspire youth to pursue further studies, even in the face of challenges."
+  ],
+];
 
   // Featured / static stories (kept)
   $stories = [
@@ -291,24 +319,81 @@ if (isset($_POST['logout'])) {
       </div>
     </section>
 
-    <!-- ========== TESTIMONIALS ========== -->
-    <section id="stories" class="testimonials">
-      <div class="container">
-        <div class="testimonials-header">
-          <span class="section-label">Real Stories</span>
-          <h2 class="section-title">Testimonials</h2>
-          <hr class="section-divider section-divider--center" />
-          <p class="sub">
-            Every graduate has a story of perseverance. These are just a few of the remarkable journeys that prove education is worth every sacrifice.
-          </p>
+    <!-- ========== SERVICES ========== -->
+<section id="services" class="about">
+  <div class="container">
+    <div class="about-header">
+      <span class="section-label">What We Do</span>
+      <h2 class="section-title">Our Services</h2>
+      <hr class="section-divider section-divider--center" />
+      <p class="sub" style="margin-top: 10px;">
+        MEF provides youth-focused recognition and engagement services that help institutions and partners inspire, motivate, and uplift learners.
+      </p>
+    </div>
 
-          <div class="share-testimony-wrap">
-            <a href="testimony.php" class="btn btn--accent">Share Your Testimony</a>
+    <div class="about-features" style="margin-top: 26px;">
+      <?php foreach ($services as $svc): ?>
+        <div class="about-feature">
+          <div class="about-feature-icon">
+            <!-- Simple consistent icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="var(--color-primary)">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2"/>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+
+          <div>
+            <h3><?php echo htmlspecialchars($svc["title"]); ?></h3>
+            <p><?php echo htmlspecialchars($svc["desc"]); ?></p>
           </div>
         </div>
+      <?php endforeach; ?>
+    </div>
 
-        <div class="testimonials-grid">
-          <?php foreach ($combinedStories as $story): ?>
+    <div class="hero-actions" style="justify-content:center; margin-top: 22px;">
+  
+  <a href="https://computicket.com/page/home"
+     target="_blank"
+     rel="noopener noreferrer"
+     class="btn btn--accent">
+     Book Event Ticket
+  </a>
+
+  <a href="#contact" class="btn btn--accent">
+     Partner With Us
+  </a>
+
+</div>
+  </div>
+</section>
+
+<!-- ===== Section Divider ===== -->
+<div aria-hidden="true" style="max-width: 1100px; margin: 46px auto; padding: 0 20px;">
+  <hr style="border: none; height: 1px; background: var(--color-border);" />
+</div>
+
+
+<!-- ========== TESTIMONIALS ========== -->
+  <section id="stories" class="testimonials">
+
+    <div class="container">
+      <div class="testimonials-header">
+
+        <span class="section-label">Real Stories</span>
+        <h2 class="section-title">Testimonials</h2>
+        <hr class="section-divider section-divider--center" />
+        <p class="sub"> Every graduate has a story of perseverance. These are just a few of the remarkable journeys that prove education is worth every sacrifice.</p>
+
+      <div class="share-testimony-wrap">
+        <a href="testimony.php" class="btn btn--accent">Share Your Testimony</a>
+
+      </div>
+
+    </div>
+
+    <div class="testimonials-grid">
+
+      <?php foreach ($combinedStories as $story): ?>
             <div class="story-card">
               <div class="story-card-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">

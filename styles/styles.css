@@ -484,8 +484,7 @@ nav a.download-btn:hover {
 .about-header {
   text-align: center;
   margin-bottom: 64px;
-  
-  
+
 }
 
 .about-grid {
@@ -578,6 +577,7 @@ nav a.download-btn:hover {
 .about .section-title {
    color: var(--color-foreground);
   }
+
 
 /* ============================================
    IMPACT SECTION
