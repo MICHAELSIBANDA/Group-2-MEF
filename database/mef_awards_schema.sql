@@ -1,16 +1,19 @@
--- MEF Awards Database Schema
--- No sample data (app will insert records)
-
 CREATE DATABASE IF NOT EXISTS mef_awards
   DEFAULT CHARACTER SET utf8mb4
   COLLATE utf8mb4_unicode_ci;
 
 USE mef_awards;
 
--- =============================
--- TABLE: award_category
--- =============================
+SET FOREIGN_KEY_CHECKS = 0;
+
+DROP TABLE IF EXISTS nomination;
+DROP TABLE IF EXISTS testimonies;
+DROP TABLE IF EXISTS nominator;
+DROP TABLE IF EXISTS nominee;
 DROP TABLE IF EXISTS award_category;
+
+SET FOREIGN_KEY_CHECKS = 1;
+
 CREATE TABLE award_category (
   award_category_id INT(11) NOT NULL AUTO_INCREMENT,
   category_name VARCHAR(150) NOT NULL,
@@ -18,10 +21,6 @@ CREATE TABLE award_category (
   PRIMARY KEY (award_category_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- =============================
--- TABLE: nominee
--- =============================
-DROP TABLE IF EXISTS nominee;
 CREATE TABLE nominee (
   nominee_id INT(11) NOT NULL AUTO_INCREMENT,
   full_name VARCHAR(150) NOT NULL,
@@ -38,10 +37,6 @@ CREATE TABLE nominee (
   UNIQUE KEY uniq_nominee_email (email)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- =============================
--- TABLE: nominator
--- =============================
-DROP TABLE IF EXISTS nominator;
 CREATE TABLE nominator (
   nominator_id INT(11) NOT NULL AUTO_INCREMENT,
   full_name VARCHAR(150) NOT NULL,
@@ -50,10 +45,6 @@ CREATE TABLE nominator (
   PRIMARY KEY (nominator_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- =============================
--- TABLE: testimonies
--- =============================
-DROP TABLE IF EXISTS testimonies;
 CREATE TABLE testimonies (
   testimony_id INT(11) NOT NULL AUTO_INCREMENT,
   full_name VARCHAR(120) NOT NULL,
@@ -67,10 +58,6 @@ CREATE TABLE testimonies (
   PRIMARY KEY (testimony_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- =============================
--- TABLE: nomination
--- =============================
-DROP TABLE IF EXISTS nomination;
 CREATE TABLE nomination (
   nomination_id INT(11) NOT NULL AUTO_INCREMENT,
   nominee_id INT(11) NOT NULL,
