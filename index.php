@@ -138,26 +138,38 @@ if (isset($_POST['logout'])) {
   // ===============================
   // Combine DB testimonies + featured ones
   // ===============================
-  $combinedStories = [];
+ $combinedStories = [];
 
-  foreach ($testimonies as $t) {
-    $storyText = trim((string)($t["story"] ?? ""));
-    $excerptPlain = mb_substr(strip_tags($storyText), 0, 190);
-    if (mb_strlen(strip_tags($storyText)) > 190) $excerptPlain .= "...";
-
-    $combinedStories[] = [
-      "name"     => (string)($t["full_name"] ?? "Anonymous"),
-      "title"    => (string)($t["title"] ?? "Student Testimony"),
-      "location" => (string)(($t["location"] ?? "") !== "" ? $t["location"] : "South Africa"),
-      "field"    => (string)(($t["field_of_study"] ?? "") !== "" ? $t["field_of_study"] : "Student"),
-      "excerpt"  => htmlspecialchars($excerptPlain, ENT_QUOTES, "UTF-8"),
-      "quote"    => (string)(($t["quote"] ?? "") !== "" ? $t["quote"] : "Education is power."),
-    ];
+foreach ($testimonies as $t) {
+  $storyText = trim((string)($t["story"] ?? ""));
+  $excerptPlain = mb_substr(strip_tags($storyText), 0, 190);
+  if (mb_strlen(strip_tags($storyText)) > 190) {
+    $excerptPlain .= "...";
   }
 
-  foreach ($stories as $s) {
-    $combinedStories[] = $s;
+  $combinedStories[] = [
+    "name"     => (string)($t["full_name"] ?? "Anonymous"),
+    "title"    => (string)($t["title"] ?? "Student Testimony"),
+    "location" => (string)(($t["location"] ?? "") ?: "South Africa"),
+    "field"    => (string)(($t["field_of_study"] ?? "") ?: "Student"),
+    "excerpt"  => htmlspecialchars($excerptPlain, ENT_QUOTES, "UTF-8"),
+    "full"     => nl2br(htmlspecialchars($storyText, ENT_QUOTES, "UTF-8")),
+    "quote"    => (string)(($t["quote"] ?? "") ?: "Education is power."),
+  ];
+}
+
+foreach ($stories as $s) {
+  $combinedStories[] = $s;
+}
+
+$selectedStory = null;
+
+if (isset($_GET['story']) && is_numeric($_GET['story'])) {
+  $index = (int) $_GET['story'];
+  if (isset($combinedStories[$index])) {
+    $selectedStory = $combinedStories[$index];
   }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -189,7 +201,7 @@ if (isset($_POST['logout'])) {
         <?php foreach ($navLinks as $link): ?>
           <a href="<?php echo $link['href']; ?>"><?php echo $link['label']; ?></a>
         <?php endforeach; ?>
-        <a href="/form.php" class="nav-cta">Join Movement</a>
+        <a href="/join.php" class="nav-cta">Join Movement</a>
         
       </nav>
 
@@ -227,13 +239,16 @@ if (isset($_POST['logout'])) {
           Rebranding excellence for social impact. Celebrating education, inspiring futures, and turning learning into a lifestyle.
         </p>
         <div class="hero-actions">
-          <a href="form.php" class="btn btn--accent">Join the Movement</a>
+          <a href="form.php" class="btn btn--accent">Nominate a Changemaker</a>
           <a href="#about" class="btn btn--outline-light">Learn More</a>
         </div>
       </div>
     </section>
 
-    <!-- ========== ABOUT ========== -->
+    <!-- ========
+    A South African Social Movement
+    
+    == ABOUT ========== -->
     <section id="about" class="about">
       <div class="container">
         <div class="about-header">
@@ -374,59 +389,183 @@ if (isset($_POST['logout'])) {
 
 
 <!-- ========== TESTIMONIALS ========== -->
-  <section id="stories" class="testimonials">
+<section id="stories" class="testimonials">
 
-    <div class="container">
-      <div class="testimonials-header">
+  <div class="container">
 
-        <span class="section-label">Real Stories</span>
-        <h2 class="section-title">Testimonials</h2>
-        <hr class="section-divider section-divider--center" />
-        <p class="sub"> Every graduate has a story of perseverance. These are just a few of the remarkable journeys that prove education is worth every sacrifice.</p>
+    <span class="section-label">Real Stories</span>
+    <h2 class="section-title">Testimonials</h2>
+    <hr class="section-divider section-divider--center" />
+    <p class="sub">
+      Every graduate has a story of perseverance. These are just a few of the remarkable journeys that prove education is worth every sacrifice.
+    </p>
 
-      <div class="share-testimony-wrap">
-        <a href="testimony.php" class="btn btn--accent">Share Your Testimony</a>
+    <div class="share-testimony-wrap">
+      <a href="testimony.php" class="btn btn--accent">Share Your Testimony</a>
+    </div>
 
-      </div>
+    <!-- HORIZONTAL SCROLLER -->
+    <div class="testimonials-slider" style="margin-top:30px;">
+
+      <?php foreach ($combinedStories as $index => $story): ?>
+        <div class="story-card" onclick="openTestimonial(<?php echo $index; ?>)">
+
+          <h3><?php echo htmlspecialchars($story['name']); ?></h3>
+          <p class="story-title"><?php echo htmlspecialchars($story['title']); ?></p>
+
+          <div class="story-meta">
+            <span>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+              <?php echo htmlspecialchars($story['location']); ?>
+            </span>
+            <span>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
+              </svg>
+              <?php echo htmlspecialchars($story['field']); ?>
+            </span>
+          </div>
+
+          <p class="story-excerpt"><?php echo $story['excerpt']; ?></p>
+
+          <blockquote>
+            <p>&ldquo;<?php echo htmlspecialchars($story['quote']); ?>&rdquo;</p>
+            <cite>&mdash; <?php echo htmlspecialchars($story['name']); ?></cite>
+          </blockquote>
+
+        </div>
+      <?php endforeach; ?>
 
     </div>
 
-    <div class="testimonials-grid">
+  </div>
 
-      <?php foreach ($combinedStories as $story): ?>
-            <div class="story-card">
-              <div class="story-card-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                  <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V21z"/>
-                  <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/>
-                </svg>
-              </div>
+  <!-- Modal / Overlay -->
+  <div id="testimonial-modal" class="testimonial-modal" style="display:none;">
+    <div class="modal-content">
+      <span class="modal-close" onclick="closeTestimonial()">&times;</span>
+      <h3 id="modal-name"></h3>
+      <p class="story-title" id="modal-title"></p>
+      <div class="story-meta" id="modal-meta" style="margin:15px 0;"></div>
+      <div class="story-full-text" id="modal-full" style="margin-top:20px;"></div>
+      <blockquote id="modal-quote" style="margin-top:20px;"></blockquote>
 
-              <h3><?php echo htmlspecialchars($story['name']); ?></h3>
-              <p class="story-title"><?php echo htmlspecialchars($story['title']); ?></p>
-
-              <div class="story-meta">
-                <span>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-                  <?php echo htmlspecialchars($story['location']); ?>
-                </span>
-                <span>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
-                  <?php echo htmlspecialchars($story['field']); ?>
-                </span>
-              </div>
-
-              <p class="story-excerpt"><?php echo $story['excerpt']; ?></p>
-
-              <blockquote>
-                <p>&ldquo;<?php echo htmlspecialchars($story['quote']); ?>&rdquo;</p>
-                <cite>&mdash; <?php echo htmlspecialchars($story['name']); ?></cite>
-              </blockquote>
-            </div>
-          <?php endforeach; ?>
-        </div>
+      <!-- Back Button -->
+      <div style="margin-top:25px; text-align:center;">
+        <button class="btn btn--accent" onclick="closeTestimonial()">Back to Testimonials</button>
       </div>
-    </section>
+    </div>
+  </div>
+
+</section>
+
+<script>
+  // Pass PHP data to JS
+  const stories = <?php echo json_encode($combinedStories); ?>;
+
+  function openTestimonial(index) {
+    const story = stories[index];
+    document.getElementById('modal-name').textContent = story.name;
+    document.getElementById('modal-title').textContent = story.title;
+    document.getElementById('modal-meta').innerHTML = `<strong>Location:</strong> ${story.location}<br><strong>Field:</strong> ${story.field}`;
+    
+    let fullContent = '';
+    if (Array.isArray(story.full)) {
+      story.full.forEach(p => fullContent += `<p>${p}</p>`);
+    } else {
+      fullContent = `<p>${story.full}</p>`;
+    }
+    document.getElementById('modal-full').innerHTML = fullContent;
+    document.getElementById('modal-quote').textContent = `“${story.quote}”`;
+
+    document.getElementById('testimonial-modal').style.display = 'flex';
+  }
+
+  function closeTestimonial() {
+    document.getElementById('testimonial-modal').style.display = 'none';
+  }
+</script>
+
+<style>
+  /* Horizontal Slider */
+  .testimonials-slider {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+    scroll-behavior: smooth;
+  }
+
+  .testimonials-slider::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .testimonials-slider::-webkit-scrollbar-thumb {
+    background-color: rgba(0,0,0,0.3);
+    border-radius: 4px;
+  }
+
+  .story-card {
+    flex: 0 0 300px; /* width of each card */
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    cursor: pointer;
+  }
+
+  /* Modal */
+  .testimonial-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center; /* vertical center */
+    z-index: 9999;
+    padding: 20px;
+  }
+
+  .modal-content {
+    background-color: #fff;
+    padding: 25px;
+    width: 100%;
+    max-width: 600px;
+    border-radius: 12px;
+    max-height: 90%;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 28px;
+    cursor: pointer;
+  }
+
+  @media (max-width: 768px) {
+    .testimonials-slider {
+      gap: 15px;
+      padding-bottom: 8px;
+    }
+    .story-card {
+      flex: 0 0 250px;
+    }
+    .modal-content {
+      width: 95%;
+      padding: 20px;
+    }
+  }
+</style>
 
     <!-- ========== GALLERY ========== -->
     <section id="gallery" class="gallery">
