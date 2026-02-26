@@ -79,8 +79,6 @@ CREATE TABLE nomination (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
-
-
 CREATE TABLE IF NOT EXISTS join_requests (
   join_request_id INT(11) NOT NULL AUTO_INCREMENT,
   full_name VARCHAR(150) NOT NULL,

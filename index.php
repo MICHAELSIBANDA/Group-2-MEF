@@ -335,7 +335,7 @@ if (isset($_GET['story']) && is_numeric($_GET['story'])) {
     </section>
 
     <!-- ========== SERVICES ========== -->
-<section id="services" class="about">
+<section id="services" class="gallery">
   <div class="container">
     <div class="about-header">
       <span class="section-label">What We Do</span>
@@ -381,12 +381,6 @@ if (isset($_GET['story']) && is_numeric($_GET['story'])) {
 </div>
   </div>
 </section>
-
-<!-- ===== Section Divider ===== -->
-<div aria-hidden="true" style="max-width: 1100px; margin: 46px auto; padding: 0 20px;">
-  <hr style="border: none; height: 1px; background: var(--color-border);" />
-</div>
-
 
 <!-- ========== TESTIMONIALS ========== -->
 <section id="stories" class="testimonials">
@@ -447,11 +441,23 @@ if (isset($_GET['story']) && is_numeric($_GET['story'])) {
   <div id="testimonial-modal" class="testimonial-modal" style="display:none;">
     <div class="modal-content">
       <span class="modal-close" onclick="closeTestimonial()">&times;</span>
-      <h3 id="modal-name"></h3>
-      <p class="story-title" id="modal-title"></p>
-      <div class="story-meta" id="modal-meta" style="margin:15px 0;"></div>
-      <div class="story-full-text" id="modal-full" style="margin-top:20px;"></div>
-      <blockquote id="modal-quote" style="margin-top:20px;"></blockquote>
+      <h3 id="modal-name" style="font-family: var(--font-serif); font-size: 1.25rem; font-weight: 700; color: var(--color-foreground);"></h3>
+      <p class="story-title" id="modal-title" 
+        style=
+          "margin-top: 4px; 
+          font-size: 0.875rem; 
+          font-weight: 500; 
+          font-style: italic; color: var(--color-accent);"
+        ></p>
+      <p class="story-meta" id="modal-meta" 
+        style="display: flex; flex-direction: column; gap: 6px; font-size: 0.875rem; color: var(--color-foreground-soft);"
+      ></p>
+      <p class="story-full-text" id="modal-full" 
+        style="margin-top:20px; margin-bottom:20px; line-height: 1.7; color: var(--color-foreground-soft);"
+      ></p>
+      <cite id="modal-quote" 
+        style="padding-left:10px; border-left: 3px solid var(--color-accent);"
+      ></cite>
 
       <!-- Back Button -->
       <div style="margin-top:25px; text-align:center;">
