@@ -201,7 +201,7 @@ if (isset($_GET['story']) && is_numeric($_GET['story'])) {
         <?php foreach ($navLinks as $link): ?>
           <a href="<?php echo $link['href']; ?>"><?php echo $link['label']; ?></a>
         <?php endforeach; ?>
-        <a href="/form.php" class="nav-cta">Join Movement</a>
+        <a href="/join.php" class="nav-cta">Join Movement</a>
         
       </nav>
 
@@ -239,13 +239,16 @@ if (isset($_GET['story']) && is_numeric($_GET['story'])) {
           Rebranding excellence for social impact. Celebrating education, inspiring futures, and turning learning into a lifestyle.
         </p>
         <div class="hero-actions">
-          <a href="form.php" class="btn btn--accent">Join the Movement</a>
+          <a href="form.php" class="btn btn--accent">Nominate a Changemaker</a>
           <a href="#about" class="btn btn--outline-light">Learn More</a>
         </div>
       </div>
     </section>
 
-    <!-- ========== ABOUT ========== -->
+    <!-- ========
+    A South African Social Movement
+    
+    == ABOUT ========== -->
     <section id="about" class="about">
       <div class="container">
         <div class="about-header">

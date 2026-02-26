@@ -42,59 +42,201 @@ $sent = isset($_GET["sent"]) && $_GET["sent"] === "1";
 
   <link rel="stylesheet" href="styles/styles.css" />
 
+  
   <style>
-    body { background: #f5f7fb; color: #111827; }
-    .page-wrap{ max-width: 980px; margin: 48px auto; padding: 0 16px; }
-    .page-title{ margin:0 0 6px; font-size:2rem; font-weight:800; letter-spacing:-0.02em; text-align: center;}
-    .page-subtitle{ margin:0; color:#4b5563; line-height:1.6; text-align: center; }
+    /* ==========================================================
+       MEF Awards Form – Match main MEF design language
+       (Uses your existing CSS variables from styles/styles.css)
+       ========================================================== */
+
+    :root{
+      /* Safe fallbacks if variables are missing */
+      --mef-primary: var(--color-primary, #2d5016);
+      --mef-accent:  var(--color-accent,  #c8952e);
+      --mef-bg:      var(--color-background, #faf8f5);
+      --mef-card:    var(--color-card, #ffffff);
+      --mef-border:  var(--color-border, #e5ded4);
+      --mef-text:    var(--color-foreground, #1a1a1a);
+      --mef-muted:   var(--color-muted, #6b6355);
+      --mef-cream:   var(--color-cream, #f0ebe3);
+      --mef-font:    var(--font-sans, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif);
+    }
+
+    body{
+      background: var(--mef-bg);
+      color: var(--mef-text);
+      font-family: var(--mef-font);
+    }
+
+    .page-wrap{
+      max-width: 980px;
+      margin: 56px auto;
+      padding: 0 16px;
+    }
+
+    .page-title{
+      margin: 0 0 6px;
+      font-size: clamp(1.7rem, 2.6vw, 2.2rem);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      text-align: center;
+      color: var(--mef-primary);
+    }
+
+    .page-subtitle{
+      margin: 0;
+      color: rgba(26,26,26,.75);
+      line-height: 1.6;
+      text-align: center;
+      max-width: 62ch;
+      margin-inline: auto;
+    }
+
+    /* Card feel similar to MEF sections */
     .card{
-      background:#fff; border:1px solid #e5e7eb; border-radius:18px;
-      padding:26px; box-shadow:0 12px 30px rgba(0,0,0,.08); margin-top:18px;
+      background: color-mix(in srgb, var(--mef-card) 92%, transparent);
+      border: 1px solid var(--mef-border);
+      border-radius: 18px;
+      padding: 26px;
+      box-shadow: 0 10px 28px rgba(0,0,0,.08);
+      margin-top: 18px;
     }
+
     .success{
-      background:#e6f4ea; color:#1e4620; padding:12px 14px; border-radius:12px;
-      margin-bottom:18px; font-weight:600; border:1px solid rgba(30,70,32,.15);
+      background: color-mix(in srgb, var(--mef-primary) 10%, white);
+      color: color-mix(in srgb, var(--mef-primary) 90%, black);
+      padding: 12px 14px;
+      border-radius: 12px;
+      margin-bottom: 18px;
+      font-weight: 700;
+      border: 1px solid color-mix(in srgb, var(--mef-primary) 18%, transparent);
     }
-    .section-title{ margin:18px 0 12px; font-size:1.05rem; font-weight:800; }
-    .divider{ border:none; height:1px; background:#e5e7eb; margin:18px 0; }
-    .grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
-    .field{ margin-bottom:14px; }
-    label{ display:block; font-weight:700; margin-bottom:6px; color:#111827; font-size:.95rem; }
+
+    .divider{
+      border: none;
+      height: 1px;
+      background: var(--mef-border);
+      margin: 18px 0;
+    }
+
+    .grid-2{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .field{ margin-bottom: 14px; }
+
+    label{
+      display: block;
+      font-weight: 800;
+      margin-bottom: 6px;
+      color: var(--mef-text);
+      font-size: .95rem;
+    }
+
     input, select, textarea{
-      width:100%; padding:12px 14px; border-radius:12px; border:1px solid #e5e7eb;
-      outline:none; background:#fff; color:#111827; font-size:15px;
-      transition: box-shadow .15s ease, border-color .15s ease;
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--mef-border);
+      outline: none;
+      background: #fff;
+      color: var(--mef-text);
+      font-size: 15px;
+      transition: box-shadow .15s ease, border-color .15s ease, transform .06s ease;
     }
-    textarea{ min-height:130px; resize:vertical; line-height:1.5; }
-    input:focus, select:focus, textarea:focus{ border-color:#111827; box-shadow:0 0 0 4px rgba(17,24,39,.08); }
-    .hint{ margin-top:6px; color:#6b7280; font-size:.92rem; line-height:1.4; }
-    .actions{ display:flex; gap:10px; flex-wrap:wrap; margin-top:20px; align-items:center; justify-content: center;}
-    .btn-solid{
-      border:0; border-radius:12px; padding:12px 16px; cursor:pointer; font-weight:800;
-      background:#111827; color:#fff; text-decoration:none; display:inline-flex; align-items:center; justify-content:center;
-      transition: transform .06s ease, background .15s ease;
+
+    textarea{ min-height: 130px; resize: vertical; line-height: 1.5; }
+
+    input:focus, select:focus, textarea:focus{
+      border-color: color-mix(in srgb, var(--mef-primary) 65%, var(--mef-border));
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--mef-primary) 18%, transparent);
     }
-    .btn-solid:hover{ background:#0b1220; }
-    .btn-solid:active{ transform: translateY(1px); }
-    .btn-ghost{
-      border:1px solid #111827; border-radius:12px; padding:12px 16px; font-weight:800;
-      color:#111827; text-decoration:none; background:transparent; display:inline-flex; align-items:center; justify-content:center;
+
+    .hint{
+      margin-top: 6px;
+      color: var(--mef-muted);
+      font-size: .92rem;
+      line-height: 1.4;
     }
-    .btn-ghost:hover{ background: rgba(17,24,39,.06); }
-    @media (max-width:760px){ .grid-2{ grid-template-columns:1fr; } .card{ padding:18px; } .page-title{ font-size:1.7rem; } }
 
     .form-section-title{
-  margin: 22px 0 12px;
-  font-size: 1.1rem;
-  font-weight: 900;
-  color:#111827;
-  background:#f3f4f6;
-  border:1px solid #e5e7eb;
-  padding: 10px 12px;
-  border-radius: 12px;
-  letter-spacing: .02em;
-}
+      margin: 22px 0 12px;
+      font-size: 1.05rem;
+      font-weight: 900;
+      color: var(--mef-primary);
+      background: var(--mef-cream);
+      border: 1px solid var(--mef-border);
+      padding: 10px 12px;
+      border-radius: 12px;
+      letter-spacing: .02em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .form-section-title::before{
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--mef-accent);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--mef-accent) 25%, transparent);
+      flex: 0 0 auto;
+    }
+
+    /* Buttons — align with MEF (works even if your global .btn styles change) */
+    .actions{
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn{
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-weight: 900;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: transform .06s ease, background .15s ease, border-color .15s ease, box-shadow .15s ease;
+      line-height: 1;
+      min-height: 44px;
+    }
+    .btn:active{ transform: translateY(1px); }
+
+    .btn--accent{
+      background: var(--mef-accent);
+      color: #111;
+      border-color: color-mix(in srgb, var(--mef-accent) 60%, black);
+      box-shadow: 0 10px 18px rgba(0,0,0,.10);
+    }
+    .btn--accent:hover{
+      background: color-mix(in srgb, var(--mef-accent) 92%, black);
+    }
+
+    .btn--outline{
+      background: transparent;
+      color: var(--mef-primary);
+      border-color: color-mix(in srgb, var(--mef-primary) 35%, var(--mef-border));
+    }
+    .btn--outline:hover{
+      background: color-mix(in srgb, var(--mef-primary) 6%, transparent);
+    }
+
+    @media (max-width: 760px){
+      .grid-2{ grid-template-columns: 1fr; }
+      .card{ padding: 18px; }
+      .page-wrap{ margin: 40px auto; }
+    }
   </style>
+
 </head>
 <body>
 
@@ -213,8 +355,8 @@ $sent = isset($_GET["sent"]) && $_GET["sent"] === "1";
       </div>
 
       <div class="actions">
-        <button type="submit" class="btn-solid">Submit Nomination</button>
-        <a class="btn-ghost" href="index.php">Back to Home</a>
+        <button type="submit" class="btn btn--accent">Submit Nomination</button>
+        <a class="btn btn--outline" href="index.php">Back to Home</a>
       </div>
 
     </form>
@@ -224,9 +366,9 @@ $sent = isset($_GET["sent"]) && $_GET["sent"] === "1";
     <?php if (isset($_SESSION['access_granted'])): ?>
       <h2 class="form-section-title" style="display: flex; justify-content: center;">Download Nomination</h2>
       <div class="actions">
-        <a href="export.php" class="btn-solid">Download Nomination</a>
+        <a href="export.php" class="btn btn--accent">Download Nomination</a>
         <form method="post" style="display:inline;">
-          <button type="submit" name="logout" class="btn-ghost">Logout</button>
+          <button type="submit" name="logout" class="btn btn--outline">Logout</button>
         </form>
       </div>
     <?php else: ?>
@@ -240,7 +382,7 @@ $sent = isset($_GET["sent"]) && $_GET["sent"] === "1";
             required
           >
           <div class="actions" style="margin-top:14px;">
-            <button type="submit" name="login" class="btn-solid">Unlock</button>
+            <button type="submit" name="login" class="btn btn--accent">Unlock</button>
           </div>
           <?php if (isset($loginError)): ?>
             <div style="color:#dc2626; font-size:14px; margin-top:8px; font-weight:600;">
