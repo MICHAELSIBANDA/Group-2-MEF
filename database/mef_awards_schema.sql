@@ -78,6 +78,24 @@ CREATE TABLE nomination (
     FOREIGN KEY (award_category_id) REFERENCES award_category (award_category_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+
+
+
+CREATE TABLE IF NOT EXISTS join_requests (
+  join_request_id INT(11) NOT NULL AUTO_INCREMENT,
+  full_name VARCHAR(150) NOT NULL,
+  email VARCHAR(150) NOT NULL,
+  phone_number VARCHAR(20) DEFAULT NULL,
+  institution VARCHAR(150) NOT NULL,
+  role ENUM('Student','Partner','Volunteer','Sponsor') NOT NULL,
+  message TEXT NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (join_request_id),
+  KEY idx_join_email (email),
+  KEY idx_join_role (role),
+  KEY idx_join_created (created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 INSERT INTO award_category (category_name, description) VALUES
 ('AI Champion Award', NULL),
 ('Entrepreneur of the year Award', NULL),
