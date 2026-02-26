@@ -3,10 +3,46 @@ declare(strict_types=1);
 
 $success = false;
 
+$success = false;
+$error = "";
+
+/* LOAD DATABASE CONNECTION */
+require_once __DIR__ . "/config/db.php";
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-  // TODO: Persist / email / store to DB if needed
-  $success = true;
+
+  $full_name    = trim($_POST["full_name"] ?? "");
+  $email        = trim($_POST["email"] ?? "");
+  $phone_number = trim($_POST["phone_number"] ?? "");
+  $institution  = trim($_POST["institution"] ?? "");
+  $role         = trim($_POST["role"] ?? "");
+  $message      = trim($_POST["message"] ?? "");
+
+  try {
+
+    $stmt = $pdo->prepare("
+      INSERT INTO join_requests
+      (full_name, email, phone_number, institution, role, message)
+      VALUES
+      (:full_name, :email, :phone_number, :institution, :role, :message)
+    ");
+
+    $stmt->execute([
+      ":full_name"    => $full_name,
+      ":email"        => $email,
+      ":phone_number" => ($phone_number === "" ? null : $phone_number),
+      ":institution"  => $institution,
+      ":role"         => $role,
+      ":message"      => $message
+    ]);
+
+    $success = true;
+
+  } catch (Throwable $e) {
+    $error = $e->getMessage();
+  }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,8 +74,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     /* Match current MEF look & feel (keep the same layout + class names) */
     body { background: var(--color-background); color: var(--color-foreground); font-family: var(--font-sans); }
 
-    .page-wrap{ max-width: 980px; margin: 48px auto; padding: 0 16px; }
-    .page-title{ margin:0 0 6px; font-size:2rem; font-weight:900; letter-spacing:-0.02em; text-align:center; color: var(--color-primary); }
+  .page-wrap{ max-width: 980px; 
+      margin: 48px auto; 
+      padding: 0 16px;
+
+   }
+
+  .page-title{margin:0 0 6px; 
+  font-size:2rem; 
+  font-weight:900; 
+  letter-spacing:-0.02em; 
+  text-align:center; 
+  color: var(--color-primary); }
+  
     .page-subtitle{ margin:0; color: var(--color-foreground-soft); line-height:1.6; text-align:center; }
 
     .card{
@@ -164,6 +211,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     </div>
 
     <div class="card">
+
+    <?php if ($error !== ""): ?>
+  <div class="success" style="background:#ffe5e5;color:#b00020;">
+    <?= htmlspecialchars($error) ?>
+  </div>
+<?php endif; ?>
+
       <?php if ($success): ?>
         <div class="success">Thank you for joining the movement! We will be in touch soon.</div>
       <?php endif; ?>
