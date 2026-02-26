@@ -74,8 +74,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     /* Match current MEF look & feel (keep the same layout + class names) */
     body { background: var(--color-background); color: var(--color-foreground); font-family: var(--font-sans); }
 
-    .page-wrap{ max-width: 980px; margin: 48px auto; padding: 0 16px; }
-    .page-title{ margin:0 0 6px; font-size:2rem; font-weight:900; letter-spacing:-0.02em; text-align:center; color: var(--color-primary); }
+  .page-wrap{ max-width: 980px; 
+      margin: 48px auto; 
+      padding: 0 16px;
+
+   }
+
+  .page-title{margin:0 0 6px; 
+  font-size:2rem; 
+  font-weight:900; 
+  letter-spacing:-0.02em; 
+  text-align:center; 
+  color: var(--color-primary); }
+  
     .page-subtitle{ margin:0; color: var(--color-foreground-soft); line-height:1.6; text-align:center; }
 
     .card{
