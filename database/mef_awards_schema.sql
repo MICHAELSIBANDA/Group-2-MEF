@@ -2,12 +2,31 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
+-- USE DATABASE
 CREATE DATABASE IF NOT EXISTS `mef_awards`
   DEFAULT CHARACTER SET utf8mb4
   COLLATE utf8mb4_unicode_ci;
-
 USE `mef_awards`;
 
+-- =========================
+-- DROP OLD TABLES
+-- =========================
+SET FOREIGN_KEY_CHECKS = 0;
+
+DROP TABLE IF EXISTS `nomination_documents`;
+DROP TABLE IF EXISTS `nomination_details`;
+DROP TABLE IF EXISTS `nomination`;
+DROP TABLE IF EXISTS `nominee`;
+DROP TABLE IF EXISTS `nominator`;
+DROP TABLE IF EXISTS `join_requests`;
+DROP TABLE IF EXISTS `award_category`;
+DROP TABLE IF EXISTS `testimonies`;
+
+SET FOREIGN_KEY_CHECKS = 1;
+
+-- =========================
+-- CREATE TABLES
+-- =========================
 CREATE TABLE `award_category` (
   `award_category_id` int(11) NOT NULL AUTO_INCREMENT,
   `category_name` varchar(150) NOT NULL,
