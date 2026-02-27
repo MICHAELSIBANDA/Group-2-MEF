@@ -825,23 +825,46 @@ $sent = isset($_GET["sent"]) && $_GET["sent"] === "1";
         </form>
       </div>
     <?php else: ?>
-      <h2 class="form-section-title" style="display:flex; justify-content: center;">Access Report</h2>
+  <h2 class="form-section-title" style="display:flex; justify-content:center;">
+    Access Report
+  </h2>
+
+  <div style="display:flex; justify-content:center; margin-top:18px;">
+    <form method="post" style="max-width: 360px; width:100%;">
 
       <div class="field">
-        <form method="post">
-          <input type="password" name="password" placeholder="Enter password" required>
-          <div class="actions" style="margin-top:14px;">
-            <button type="submit" name="login" class="btn btn--accent">Unlock</button>
-          </div>
-
-          <?php if (isset($loginError)): ?>
-            <div style="color:#dc2626; font-size:14px; margin-top:8px; font-weight:600;">
-              <?= e($loginError) ?>
-            </div>
-          <?php endif; ?>
-        </form>
+        <label for="report_password">Enter Password</label>
+        <input 
+          type="password" 
+          id="report_password"
+          name="password" 
+          placeholder="Enter password" 
+          required>
       </div>
-    <?php endif; ?>
+
+      <div class="actions" style="justify-content:center;">
+        <button type="submit" name="login" class="btn btn--accent">
+          Unlock
+        </button>
+      </div>
+
+      <?php if (isset($loginError)): ?>
+        <div style="
+          background:#fee2e2;
+          border:1px solid #fecaca;
+          color:#991b1b;
+          padding:10px 12px;
+          border-radius:10px;
+          margin-top:12px;
+          font-weight:800;
+          text-align:center;">
+          <?= e($loginError) ?>
+        </div>
+      <?php endif; ?>
+
+    </form>
+  </div>
+<?php endif; ?>
   </div>
 
 </div>
