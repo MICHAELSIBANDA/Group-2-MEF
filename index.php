@@ -398,68 +398,49 @@ if (isset($_GET['story']) && is_numeric($_GET['story'])) {
       <a href="testimony.php" class="btn btn--accent">Share Your Testimony</a>
     </div>
 
-    <!-- HORIZONTAL SCROLLER -->
-    <div class="testimonials-slider" style="margin-top:30px;">
+    <!-- CENTER WRAPPER -->
+    <div class="testimonials-wrapper">
 
-      <?php foreach ($combinedStories as $index => $story): ?>
-        <div class="story-card" onclick="openTestimonial(<?php echo $index; ?>)">
+      <!-- HORIZONTAL SCROLLER -->
+      <div class="testimonials-slider">
 
-          <h3><?php echo htmlspecialchars($story['name']); ?></h3>
-          <p class="story-title"><?php echo htmlspecialchars($story['title']); ?></p>
+        <?php foreach ($combinedStories as $index => $story): ?>
+          <div class="story-card" onclick="openTestimonial(<?php echo $index; ?>)">
 
-          <div class="story-meta">
-            <span>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
-                <circle cx="12" cy="10" r="3"/>
-              </svg>
-              <?php echo htmlspecialchars($story['location']); ?>
-            </span>
-            <span>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
-              </svg>
-              <?php echo htmlspecialchars($story['field']); ?>
-            </span>
+            <h3><?php echo htmlspecialchars($story['name']); ?></h3>
+            <p class="story-title"><?php echo htmlspecialchars($story['title']); ?></p>
+
+            <div class="story-meta">
+              <span><?php echo htmlspecialchars($story['location']); ?></span>
+              <span><?php echo htmlspecialchars($story['field']); ?></span>
+            </div>
+
+            <p class="story-excerpt"><?php echo $story['excerpt']; ?></p>
+
+            <blockquote>
+              <p>&ldquo;<?php echo htmlspecialchars($story['quote']); ?>&rdquo;</p>
+              <cite>&mdash; <?php echo htmlspecialchars($story['name']); ?></cite>
+            </blockquote>
+
           </div>
+        <?php endforeach; ?>
 
-          <p class="story-excerpt"><?php echo $story['excerpt']; ?></p>
-
-          <blockquote>
-            <p>&ldquo;<?php echo htmlspecialchars($story['quote']); ?>&rdquo;</p>
-            <cite>&mdash; <?php echo htmlspecialchars($story['name']); ?></cite>
-          </blockquote>
-
-        </div>
-      <?php endforeach; ?>
+      </div>
 
     </div>
 
   </div>
 
-  <!-- Modal / Overlay -->
+  <!-- Modal -->
   <div id="testimonial-modal" class="testimonial-modal" style="display:none;">
     <div class="modal-content">
       <span class="modal-close" onclick="closeTestimonial()">&times;</span>
-      <h3 id="modal-name" style="font-family: var(--font-serif); font-size: 1.25rem; font-weight: 700; color: var(--color-foreground);"></h3>
-      <p class="story-title" id="modal-title" 
-        style=
-          "margin-top: 4px; 
-          font-size: 0.875rem; 
-          font-weight: 500; 
-          font-style: italic; color: var(--color-accent);"
-        ></p>
-      <p class="story-meta" id="modal-meta" 
-        style="display: flex; flex-direction: column; gap: 6px; font-size: 0.875rem; color: var(--color-foreground-soft);"
-      ></p>
-      <p class="story-full-text" id="modal-full" 
-        style="margin-top:20px; margin-bottom:20px; line-height: 1.7; color: var(--color-foreground-soft);"
-      ></p>
-      <cite id="modal-quote" 
-        style="padding-left:10px; border-left: 3px solid var(--color-accent);"
-      ></cite>
+      <h3 id="modal-name"></h3>
+      <p class="story-title" id="modal-title"></p>
+      <p class="story-meta" id="modal-meta"></p>
+      <div id="modal-full"></div>
+      <cite id="modal-quote"></cite>
 
-      <!-- Back Button -->
       <div style="margin-top:25px; text-align:center;">
         <button class="btn btn--accent" onclick="closeTestimonial()">Back to Testimonials</button>
       </div>
@@ -469,108 +450,138 @@ if (isset($_GET['story']) && is_numeric($_GET['story'])) {
 </section>
 
 <script>
-  // Pass PHP data to JS
-  const stories = <?php echo json_encode($combinedStories); ?>;
+const stories = <?php echo json_encode($combinedStories); ?>;
 
-  function openTestimonial(index) {
-    const story = stories[index];
-    document.getElementById('modal-name').textContent = story.name;
-    document.getElementById('modal-title').textContent = story.title;
-    document.getElementById('modal-meta').innerHTML = `<strong>Location:</strong> ${story.location}<br><strong>Field:</strong> ${story.field}`;
-    
-    let fullContent = '';
-    if (Array.isArray(story.full)) {
-      story.full.forEach(p => fullContent += `<p>${p}</p>`);
-    } else {
-      fullContent = `<p>${story.full}</p>`;
-    }
-    document.getElementById('modal-full').innerHTML = fullContent;
-    document.getElementById('modal-quote').textContent = `“${story.quote}”`;
+function openTestimonial(index) {
+  const story = stories[index];
 
-    document.getElementById('testimonial-modal').style.display = 'flex';
+  document.getElementById('modal-name').textContent = story.name;
+  document.getElementById('modal-title').textContent = story.title;
+  document.getElementById('modal-meta').innerHTML =
+    `<strong>Location:</strong> ${story.location}<br>
+     <strong>Field:</strong> ${story.field}`;
+
+  let fullContent = '';
+  if (Array.isArray(story.full)) {
+    story.full.forEach(p => fullContent += `<p>${p}</p>`);
+  } else {
+    fullContent = `<p>${story.full}</p>`;
   }
 
-  function closeTestimonial() {
-    document.getElementById('testimonial-modal').style.display = 'none';
-  }
+  document.getElementById('modal-full').innerHTML = fullContent;
+  document.getElementById('modal-quote').textContent = `“${story.quote}”`;
+
+  document.getElementById('testimonial-modal').style.display = 'flex';
+}
+
+function closeTestimonial() {
+  document.getElementById('testimonial-modal').style.display = 'none';
+}
 </script>
 
 <style>
-  /* Horizontal Slider */
-  .testimonials-slider {
-    display: flex;
-    gap: 20px;
-    overflow-x: auto;
-    padding-bottom: 10px;
-    scroll-behavior: smooth;
-  }
+/* ============================= */
+/* CENTER WRAPPER */
+/* ============================= */
 
-  .testimonials-slider::-webkit-scrollbar {
-    height: 8px;
-  }
+.testimonials-wrapper {
+  overflow-x: auto;
+  margin-top: 30px;
+  width: 100%;
+}
 
-  .testimonials-slider::-webkit-scrollbar-thumb {
-    background-color: rgba(0,0,0,0.3);
-    border-radius: 4px;
-  }
+/* ============================= */
+/* HORIZONTAL SLIDER */
+/* ============================= */
+
+.testimonials-slider {
+  display: flex;
+  gap: 20px;
+  width: max-content;
+  padding: 0 20px 15px 20px;
+  margin: 0 auto; /* centers when not overflowing */
+}
+
+/* Scrollbar */
+.testimonials-wrapper::-webkit-scrollbar {
+  height: 8px;
+}
+
+.testimonials-wrapper::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.3);
+  border-radius: 4px;
+}
+
+/* Cards */
+.story-card {
+  flex: 0 0 300px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.story-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* ============================= */
+/* MODAL */
+/* ============================= */
+
+.testimonial-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 25px;
+  width: 100%;
+  max-width: 600px;
+  border-radius: 12px;
+  max-height: 90%;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+/* ============================= */
+/* MOBILE */
+/* ============================= */
+
+@media (max-width: 768px) {
 
   .story-card {
-    flex: 0 0 300px; /* width of each card */
-    background: #fff;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    cursor: pointer;
-  }
-
-  /* Modal */
-  .testimonial-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.6);
-    display: flex;
-    justify-content: center;
-    align-items: center; /* vertical center */
-    z-index: 9999;
-    padding: 20px;
+    flex: 0 0 250px;
   }
 
   .modal-content {
-    background-color: #fff;
-    padding: 25px;
-    width: 100%;
-    max-width: 600px;
-    border-radius: 12px;
-    max-height: 90%;
-    overflow-y: auto;
-    position: relative;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    width: 95%;
+    padding: 20px;
   }
 
-  .modal-close {
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    font-size: 28px;
-    cursor: pointer;
-  }
-
-  @media (max-width: 768px) {
-    .testimonials-slider {
-      gap: 15px;
-      padding-bottom: 8px;
-    }
-    .story-card {
-      flex: 0 0 250px;
-    }
-    .modal-content {
-      width: 95%;
-      padding: 20px;
-    }
-  }
+}
 </style>
 
     <!-- ========== GALLERY ========== -->
