@@ -398,33 +398,34 @@ if (isset($_GET['story']) && is_numeric($_GET['story'])) {
       <a href="testimony.php" class="btn btn--accent">Share Your Testimony</a>
     </div>
 
-    <!-- HORIZONTAL SCROLLER -->
-    <div class="testimonials-slider" style="margin-top:30px;">
+    <!-- CENTER WRAPPER -->
+    <div class="testimonials-wrapper">
 
-      <?php foreach ($combinedStories as $index => $story): ?>
-        <div class="story-card" onclick="openTestimonial(<?php echo $index; ?>)">
+      <!-- HORIZONTAL SCROLLER -->
+      <div class="testimonials-slider">
 
-          <h3><?php echo htmlspecialchars($story['name']); ?></h3>
-          <p class="story-title"><?php echo htmlspecialchars($story['title']); ?></p>
+        <?php foreach ($combinedStories as $index => $story): ?>
+          <div class="story-card" onclick="openTestimonial(<?php echo $index; ?>)">
 
-          <div class="story-meta">
-            <span>
-              <?php echo htmlspecialchars($story['location']); ?>
-            </span>
-            <span>
-              <?php echo htmlspecialchars($story['field']); ?>
-            </span>
+            <h3><?php echo htmlspecialchars($story['name']); ?></h3>
+            <p class="story-title"><?php echo htmlspecialchars($story['title']); ?></p>
+
+            <div class="story-meta">
+              <span><?php echo htmlspecialchars($story['location']); ?></span>
+              <span><?php echo htmlspecialchars($story['field']); ?></span>
+            </div>
+
+            <p class="story-excerpt"><?php echo $story['excerpt']; ?></p>
+
+            <blockquote>
+              <p>&ldquo;<?php echo htmlspecialchars($story['quote']); ?>&rdquo;</p>
+              <cite>&mdash; <?php echo htmlspecialchars($story['name']); ?></cite>
+            </blockquote>
+
           </div>
+        <?php endforeach; ?>
 
-          <p class="story-excerpt"><?php echo $story['excerpt']; ?></p>
-
-          <blockquote>
-            <p>&ldquo;<?php echo htmlspecialchars($story['quote']); ?>&rdquo;</p>
-            <cite>&mdash; <?php echo htmlspecialchars($story['name']); ?></cite>
-          </blockquote>
-
-        </div>
-      <?php endforeach; ?>
+      </div>
 
     </div>
 
@@ -480,30 +481,33 @@ function closeTestimonial() {
 
 <style>
 /* ============================= */
-/* FIXED HORIZONTAL SLIDER */
+/* CENTER WRAPPER */
+/* ============================= */
+
+.testimonials-wrapper {
+  overflow-x: auto;
+  margin-top: 30px;
+  width: 100%;
+}
+
+/* ============================= */
+/* HORIZONTAL SLIDER */
 /* ============================= */
 
 .testimonials-slider {
   display: flex;
   gap: 20px;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  flex-wrap: nowrap;
-  padding: 0 20px 15px 20px; /* small side padding only */
-}
-
-/* Remove any centering or fake spacers */
-.testimonials-slider::before,
-.testimonials-slider::after {
-  display: none;
+  width: max-content;
+  padding: 0 20px 15px 20px;
+  margin: 0 auto; /* centers when not overflowing */
 }
 
 /* Scrollbar */
-.testimonials-slider::-webkit-scrollbar {
+.testimonials-wrapper::-webkit-scrollbar {
   height: 8px;
 }
 
-.testimonials-slider::-webkit-scrollbar-thumb {
+.testimonials-wrapper::-webkit-scrollbar-thumb {
   background: rgba(0,0,0,0.3);
   border-radius: 4px;
 }
@@ -516,6 +520,12 @@ function closeTestimonial() {
   padding: 20px;
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
   cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.story-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
 
 /* ============================= */
