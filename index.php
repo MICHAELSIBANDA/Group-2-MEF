@@ -239,7 +239,7 @@ if (isset($_GET['story']) && is_numeric($_GET['story'])) {
           Rebranding excellence for social impact. Celebrating education, inspiring futures, and turning learning into a lifestyle.
         </p>
         <div class="hero-actions">
-          <a href="form.php" class="btn btn--accent">Nominate a Changemaker</a>
+          <a href="awards.php" class="btn btn--accent">Awards Categories Preview</a>
           <a href="#about" class="btn btn--outline-light">Learn More</a>
         </div>
       </div>

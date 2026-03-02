@@ -805,7 +805,7 @@ $sent = isset($_GET["sent"]) && $_GET["sent"] === "1";
            ========================= -->
       <div class="actions">
         <button type="submit" class="btn btn--accent">Submit Nomination</button>
-        <a class="btn btn--outline" href="index.php">Back to Home</a>
+        <a class="btn btn--outline" href="awards.php">Back to Categories</a>
       </div>
 
     </form>
